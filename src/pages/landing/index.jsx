@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import question from '../../assets/question.jpeg'
 
 const Landing = () => {
+    const navigate = useNavigate()
+
     return(
         <div>
             {/* Navbar */}
@@ -15,7 +18,9 @@ const Landing = () => {
                         </div>
                     </div>
                     <div>
-                        <button className="bg-primary text-white font-medium py-1.5 px-2.5 rounded-md mt-2 cursor-pointer">
+                        <button 
+                            className="bg-primary text-white font-medium py-1.5 px-2.5 rounded-md mt-2 cursor-pointer"
+                            onClick={() => navigate('/login')}>
                             Let's Play
                         </button>
                     </div>
@@ -29,7 +34,9 @@ const Landing = () => {
                     <h1 className="font-bold text-4xl text-black">Only on NgeQuiz</h1>
                     <h3 className="pt-3 text-md">Join the quiz community where everyone’s a player and a creator.</h3>
                     <h3 className='text-md'>Discover endless quizzes or build your own in just minutes.</h3>
-                    <button className="bg-primary text-white font-medium text-lg py-2 px-3 rounded-md mt-2 cursor-pointer">
+                    <button 
+                        className="bg-primary text-white font-medium text-lg py-2 px-3 rounded-md mt-2 cursor-pointer"
+                        onClick={() => navigate('/login')}>
                         Let's Play
                     </button>
                 </div>
