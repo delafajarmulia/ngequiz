@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-const Login = () => {
+const Registrasi = () => {
     return(
         <div className="w-full flex h-screen">
             {/* KIRI: tampil hanya di desktop (sm ke atas) */}
@@ -16,7 +16,17 @@ const Login = () => {
             <div className="w-full sm:w-1/2 bg-white flex justify-center items-center">
                 <div className="w-3/4 md:1/2">
                     <h2 className="font-semibold text-2xl">Halo!</h2>
-                    <p>Senang bisa ketemu lagi. Yuk, login disini!</p>
+                    <p>Buat akun dulu, yuk!</p>
+                    <div className="my-3">
+                        <p>Nama</p>
+                        <input 
+                            type="text" 
+                            name="" 
+                            id="" 
+                            placeholder="Jhon Doe"
+                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
+                        />
+                    </div>
                     <div className="my-3">
                         <p>Email</p>
                         <input 
@@ -37,16 +47,26 @@ const Login = () => {
                             className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
                         />
                     </div>
+                    <div className="my-3">
+                        <p>Ulangi Password</p>
+                        <input 
+                            type="password" 
+                            name="" 
+                            id="" 
+                            placeholder="Minimal 8 karakter"
+                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
+                        />
+                    </div>
                     <button
                         className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
-                        Login
+                        Daftar
                     </button>
-                    <p className="text-center">Belum punya akun?
+                    <p className="text-center">Sudah punya akun?
                         <Link
                             className="text-primary underline pl-1 cursor-pointer"
-                            to={'/registrasi'}
+                            to={'/login'}
                         >
-                                Buat disini
+                                Login disini
                         </Link>
                     </p>
                 </div>
@@ -56,4 +76,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Registrasi
