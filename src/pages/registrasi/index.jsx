@@ -6,9 +6,9 @@ const Registrasi = () => {
             {/* KIRI: tampil hanya di desktop (sm ke atas) */}
             <div className="hidden sm:flex bg-primary w-1/2 justify-center items-center">
                 <div className="flex text-white font-medium text-3xl">
-                <h1>Nge</h1>
-                <h1 className="bg-white text-primary px-1.5 pt-0.5 pb-1 font-bold rounded-md">Q</h1>
-                <h1>uiz</h1>
+                    <h1>Nge</h1>
+                    <h1 className="bg-white text-primary px-1.5 pt-0.5 pb-1 font-bold rounded-md">Q</h1>
+                    <h1>uiz</h1>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@ const Registrasi = () => {
                             name="" 
                             id="" 
                             placeholder="Jhon Doe"
-                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
+                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                         />
                     </div>
                     <div className="my-3">
@@ -34,7 +34,7 @@ const Registrasi = () => {
                             name="" 
                             id="" 
                             placeholder="jhon@example.com"
-                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
+                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                         />
                     </div>
                     <div className="my-3">
@@ -44,7 +44,7 @@ const Registrasi = () => {
                             name="" 
                             id="" 
                             placeholder="Minimal 8 karakter"
-                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
+                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                         />
                     </div>
                     <div className="my-3">
@@ -54,7 +54,7 @@ const Registrasi = () => {
                             name="" 
                             id="" 
                             placeholder="Minimal 8 karakter"
-                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md"
+                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                         />
                     </div>
                     <button
