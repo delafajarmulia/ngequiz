@@ -2,14 +2,27 @@ import { ContentLayout } from "../../components/ContentLayout"
 import { TabLayout } from "../../components/TabLayout";
 import Hello from "../../components/Hello";
 import { useAuth } from "../../hooks/AuthContext";
-// import hello from '../../assets/hello.svg'
-// import Navbar from "../../components/Navbar"
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Dashboard = () => {
     const {url, token} = useAuth()
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        (async(e) => {
+            await axios.get(`${url}/user/me`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+            }).then((response) => {
+                setUser(response.data.payload.datas)
+            })
+        })()
+    }, [])
     return(
         <ContentLayout>
-            <Hello />
+            <Hello name={user.name}/>
 
             <TabLayout />
 
