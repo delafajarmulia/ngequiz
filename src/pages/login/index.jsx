@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import { useAuth } from "../../hooks/AuthContext"
 
 const Login = () => {
+    const {email, setEmail, password, setPassword, Login} = useAuth()
+
     return(
         <div className="w-full flex h-screen">
             {/* KIRI: tampil hanya di desktop (sm ke atas) */}
@@ -17,30 +20,32 @@ const Login = () => {
                 <div className="w-3/4 md:1/2">
                     <h2 className="font-semibold text-2xl">Halo!</h2>
                     <p>Senang bisa ketemu lagi. Yuk, login disini!</p>
-                    <div className="my-3">
-                        <p>Email</p>
-                        <input 
-                            type="email" 
-                            name="" 
-                            id="" 
-                            placeholder="jhon@example.com"
-                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
-                        />
-                    </div>
-                    <div className="my-3">
-                        <p>Password</p>
-                        <input 
-                            type="password" 
-                            name="" 
-                            id="" 
-                            placeholder="Minimal 8 karakter"
-                            className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
-                        />
-                    </div>
-                    <button
-                        className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
-                        Login
-                    </button>
+                    <form onSubmit={(e) => Login(e)}>
+                        <div className="my-3">
+                            <p>Email</p>
+                            <input 
+                                type="email" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="jhon@example.com"
+                                className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
+                            />
+                        </div>
+                        <div className="my-3">
+                            <p>Password</p>
+                            <input 
+                                type="password" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Minimal 8 karakter"
+                                className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
+                            />
+                        </div>
+                        <button
+                            className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
+                            Login
+                        </button>
+                    </form>
                     <p className="text-center">Belum punya akun?
                         <Link
                             className="text-primary underline pl-1 cursor-pointer"

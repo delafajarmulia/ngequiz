@@ -4,17 +4,20 @@ import Login from "../pages/login"
 import Registrasi from "../pages/registrasi"
 import Dashboard from "../pages/dashboard"
 import MyQuiz from "../pages/dashboard/MyQuiz"
+import { AuthProvider } from "../hooks/AuthContext"
 
 const Router = () => {
     return(
         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Landing />}/>
-                <Route path="/login" element={<Login />} />
-                <Route path="/registrasi" element={<Registrasi />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/my-quiz" element={<MyQuiz />} />
-            </Routes>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/" element={<Landing />}/>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/registrasi" element={<Registrasi />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/my-quiz" element={<MyQuiz />} />
+                </Routes>
+            </AuthProvider>
         </BrowserRouter>
     )
 }

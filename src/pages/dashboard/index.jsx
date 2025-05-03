@@ -1,10 +1,12 @@
 import { ContentLayout } from "../../components/ContentLayout"
 import { TabLayout } from "../../components/TabLayout";
 import Hello from "../../components/Hello";
+import { useAuth } from "../../hooks/AuthContext";
 // import hello from '../../assets/hello.svg'
 // import Navbar from "../../components/Navbar"
 
 const Dashboard = () => {
+    const {url, token} = useAuth()
     return(
         <ContentLayout>
             <Hello />
