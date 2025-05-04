@@ -22,6 +22,9 @@ const useNavBottom = () => {
             case '/dashboard':
                 setIsDashboardActive(true)
                 break;
+            case '/my-quiz':
+                setIsDashboardActive(true)
+                break;
             case '/quiz-done':
                 setIsQuizDoneActive(true)
                 break;
