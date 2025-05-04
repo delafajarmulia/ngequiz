@@ -9,19 +9,19 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children, isProtected = false }) => {
   const url = "http://localhost:2007/api/v1";
   const [token, setToken] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("dela.fjr08@gmail.com");
+  const [password, setPassword] = useState("fajar2278");
   const navigate = useNavigate();
 
   // Load token dari localStorage saat pertama kali mount
-  useEffect(() => {
-    const storedToken = getTokenAction();
-    if (storedToken) {
-      setToken(storedToken);
-    } else {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedToken = getTokenAction();
+  //   if (storedToken) {
+  //     setToken(storedToken);
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   // Auto-redirect ke /dashboard kalau token ter-update
   useEffect(() => {
@@ -40,7 +40,8 @@ export const AuthProvider = ({ children, isProtected = false }) => {
 
       const tkn = response.data.payload.datas;
       setToken(tkn);
-      setTokenAction(tkn); // <- pastikan yang disimpan benar
+      console.log(tkn)
+      // setTokenAction(tkn); // <- pastikan yang disimpan benar
     } catch (err) {
       console.log(err?.response?.status + " " + password);
     }
