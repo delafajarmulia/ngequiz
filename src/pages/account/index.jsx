@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
-import { BottomNavbar } from "../../components/BottomNavbar"
 import { ContentLayout } from "../../components/ContentLayout"
-import Navbar from "../../components/Navbar"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 
@@ -25,7 +23,6 @@ const Account = () => {
 
     return(
         <ContentLayout>
-            <Navbar />
             <div className=" bg-white ">
                 <div className="my-3">
                     <p>Email</p>
@@ -54,7 +51,6 @@ const Account = () => {
                     </button>
                 </div>
             </div>
-            <BottomNavbar />
         </ContentLayout>
     )
 }
