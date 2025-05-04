@@ -1,11 +1,29 @@
+import { useEffect, useState } from "react"
 import { ContentLayout } from "../../components/ContentLayout"
 import Hello from "../../components/Hello"
 import { TabLayout } from "../../components/TabLayout"
+import axios from "axios"
+import { useAuth } from "../../hooks/AuthContext"
 
 const MyQuiz = () => {
+    const {url, token} = useAuth()
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        (async(e) => {
+            await axios.get(`${url}/user/me`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+            }).then((response) => {
+                setUser(response.data.payload.datas)
+            })
+        })()
+    }, [])
+
     return(
         <ContentLayout>
-            <Hello />
+            <Hello name={user.name}/>
             <TabLayout />
             <p className="mt-5 font-semibold">Yang udah coba kuis kamu</p>
             <select 
