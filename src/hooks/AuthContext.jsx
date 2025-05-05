@@ -9,26 +9,40 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children, isProtected = false }) => {
   const url = "http://localhost:2007/api/v1";
   const [token, setToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true)
   const [email, setEmail] = useState("user1@gmail.com");
   const [password, setPassword] = useState("12345678");
   const navigate = useNavigate();
 
-  // Load token dari localStorage saat pertama kali mount
-  // useEffect(() => {
-  //   const storedToken = getTokenAction();
-  //   if (storedToken) {
-  //     setToken(storedToken);
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, []);
-
-  // Auto-redirect ke /dashboard kalau token ter-update
   useEffect(() => {
-    if (token) {
-      navigate("/dashboard");
-    }
-  }, [token]);
+    const verifyAndSetToken = async () => {
+      const storedToken = getTokenAction();
+  
+      if (!storedToken) {
+        setIsLoading(false);
+        return navigate("/login");
+      }
+  
+      try {
+        await axios.get(`${url}/user/me`, {
+          headers: {
+            Authorization: "bearer " + storedToken,
+          },
+        });
+  
+        setToken(storedToken);
+      } catch (error) {
+        console.error("Invalid token");
+        localStorage.removeItem("token");
+        setToken(null);
+        return navigate("/login");
+      } finally {
+        setIsLoading(false); // <- dijalankan di semua kondisi
+      }
+    };
+  
+    verifyAndSetToken();
+  }, []);   
 
   const Login = async (e) => {
     e.preventDefault();
@@ -40,8 +54,8 @@ export const AuthProvider = ({ children, isProtected = false }) => {
 
       const tkn = response.data.payload.datas;
       setToken(tkn);
-      console.log(tkn)
-      // setTokenAction(tkn); // <- pastikan yang disimpan benar
+      setTokenAction(tkn); // <- pastikan yang disimpan benar
+      navigate('/dashboard')
     } catch (err) {
       console.log(err?.response?.status + " " + password);
     }
@@ -67,7 +81,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         isAuthenticated: !!token,
       }}
     >
-      {children}
+      {!isLoading && children}
     </AuthContext.Provider>
   );
 };
