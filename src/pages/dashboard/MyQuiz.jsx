@@ -8,6 +8,8 @@ import { useAuth } from "../../hooks/AuthContext"
 const MyQuiz = () => {
     const {url, token} = useAuth()
     const [user, setUser] = useState({})
+    const [quizzes, setQuizzes] = useState([])
+    const [isQuizUnavailabled, setIsQuizUnavailabled] = useState('')
 
     useEffect(() => {
         (async(e) => {
@@ -21,21 +23,36 @@ const MyQuiz = () => {
         })()
     }, [])
 
+    useEffect(() => {
+        (async(e) => {
+            await axios.get(`${url}/quiz/me`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+            }).then((response) => {
+                setQuizzes(response.data.payload.datas)
+            }).catch((err) => {
+                if(err.response.status == 404){
+                    setIsQuizUnavailabled('Kamu belum pernah buat Quiz nih. Buat dulu yuk!')
+                }
+            })
+        })()
+    }, [])
+
     return(
         <ContentLayout>
             <Hello name={user.name}/>
             <TabLayout />
             <p className="mt-5 font-semibold">Yang udah coba kuis kamu</p>
+            <p className="mt-2 font-medium text-sm">{isQuizUnavailabled ? isQuizUnavailabled : '' }</p>
             <select 
                 name="" 
                 id=""
                 className="w-full mt-2 p-2 border-2 border-border focus:border-border focus:outline-none rounded-md"
             >
-                    <option value="">Test 1</option>
-                    <option value="">Test 2</option>
-                    <option value="">Test 3</option>
-                    <option value="">Test 4</option>
-                    <option value="">Test 5</option>
+                {quizzes.map((quiz) => (
+                    <option key={quiz.id} value={quiz.id}>{quiz.title}</option>
+                ))}
             </select>
             <div className="mt-5 mb-16">
                 <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">

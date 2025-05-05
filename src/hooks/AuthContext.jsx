@@ -9,8 +9,8 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children, isProtected = false }) => {
   const url = "http://localhost:2007/api/v1";
   const [token, setToken] = useState(null);
-  const [email, setEmail] = useState("dela.fjr08@gmail.com");
-  const [password, setPassword] = useState("fajar2278");
+  const [email, setEmail] = useState("user1@gmail.com");
+  const [password, setPassword] = useState("12345678");
   const navigate = useNavigate();
 
   // Load token dari localStorage saat pertama kali mount
