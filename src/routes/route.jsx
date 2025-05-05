@@ -9,6 +9,7 @@ import QuizDone from "../pages/quiz-done"
 import MyQuizSetting from "../pages/my-quiz-setting"
 import Account from "../pages/account"
 import CreateQuiz from "../pages/create-quiz"
+import CreateQuestion from "../pages/create-question"
 
 const Router = () => {
     return(
@@ -22,6 +23,7 @@ const Router = () => {
                     <Route path="/my-quiz" element={<MyQuiz />} />
                     <Route path="/quiz-done" element={<QuizDone />} />
                     <Route path="/create-quiz" element={<CreateQuiz />} />
+                    <Route path="/create-question" element={<CreateQuestion />} />
                     <Route path="/my-quiz-setting" element={<MyQuizSetting />} />
                     <Route path="/account" element={<Account />} />
                 </Routes>
