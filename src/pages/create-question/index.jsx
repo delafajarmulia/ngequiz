@@ -70,9 +70,10 @@ const CreateQuestion = () => {
                 confirmButtonColor: '#42A5F5'
             }).then((result) => {
                 if (result.isConfirmed) {
-                  navigate(`/create-question/${questionNumber + 1}`)
+                    navigate(`/create-question/${questionNumber + 1}`)
                 } else if (result.isDenied) {
-                  navigate('/dashboard')
+                    localStorage.removeItem('quiz-id-created')
+                    navigate('/dashboard')
                 }
             });
         }).catch((error) => {
