@@ -10,6 +10,7 @@ import MyQuizSetting from "../pages/my-quiz-setting"
 import Account from "../pages/account"
 import CreateQuiz from "../pages/create-quiz"
 import CreateQuestion from "../pages/create-question"
+import PlayQuiz from "../pages/play-quiz"
 
 const Router = () => {
     return(
@@ -20,6 +21,7 @@ const Router = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/registrasi" element={<Registrasi />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/play-quiz/:quizId/question" element={<PlayQuiz />} />
                     <Route path="/my-quiz" element={<MyQuiz />} />
                     <Route path="/quiz-done" element={<QuizDone />} />
                     <Route path="/create-quiz" element={<CreateQuiz />} />

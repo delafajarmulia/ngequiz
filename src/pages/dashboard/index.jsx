@@ -4,9 +4,11 @@ import Hello from "../../components/Hello";
 import { useAuth } from "../../hooks/AuthContext";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
     const {url, token} = useAuth()
+    const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [quizzes, setQuizzes] = useState([])
 
@@ -34,6 +36,10 @@ const Dashboard = () => {
         })()
     }, [])
 
+    const playQuiz = (quizId) => {
+        navigate(`/play-quiz/${quizId}/question/1`)
+    }
+
     return(
         <ContentLayout>
             <Hello name={user.name}/>
@@ -42,55 +48,15 @@ const Dashboard = () => {
 
             <div className="mt-5 mb-16">
                 {quizzes.map(quiz => (
-                    <div key={quiz.id} className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
+                    <div 
+                        key={quiz.id} 
+                        onClick={() => playQuiz(quiz.id)}
+                        className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85"
+                    >
                         <h2 className="text-lg">{quiz.title}</h2>
                         <p className="text-xs">Pembuat: {quiz.creator.name}</p>
                     </div>
                 ))}
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
-                <div className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Pembuat: Dela Fajar Mulia</p>
-                </div>
             </div>
         </ContentLayout>
     )
