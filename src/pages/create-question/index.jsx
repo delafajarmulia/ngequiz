@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
+import { useNavigate, useParams } from "react-router-dom"
+import Swal from "sweetalert2"
 
 const CreateQuestion = () => {
     const { url, token } = useAuth()
-    const [questionNumber, setQuestionNumber] = useState(1)
+    let { questionNumber } = useParams()
+    const navigate = useNavigate()
     const [question, setQuestion] = useState('')
     const [options, setOptions] = useState([])
     const [correctOptionIndex, setCorrectOptionIndex] = useState(null)
     const [quizId, setQuizId] = useState(0)
+
+    questionNumber = parseInt(questionNumber)
 
     useEffect(() => {
         let id = localStorage.getItem('quiz-id-created')
@@ -57,7 +62,19 @@ const CreateQuestion = () => {
                 'Content-Type': 'application/json'
             }
         }).then((response) => {
-            console.log(response.data)
+            Swal.fire({
+                title: "Ingin tambah soal lagi?",
+                showDenyButton: true,
+                confirmButtonText: "Iya",
+                denyButtonText: 'Tidak',
+                confirmButtonColor: '#42A5F5'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  navigate(`/create-question/${questionNumber + 1}`)
+                } else if (result.isDenied) {
+                  navigate('/dashboard')
+                }
+            });
         }).catch((error) => {
             console.log(error)
         })

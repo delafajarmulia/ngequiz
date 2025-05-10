@@ -23,7 +23,7 @@ const Router = () => {
                     <Route path="/my-quiz" element={<MyQuiz />} />
                     <Route path="/quiz-done" element={<QuizDone />} />
                     <Route path="/create-quiz" element={<CreateQuiz />} />
-                    <Route path="/create-question" element={<CreateQuestion />} />
+                    <Route path="/create-question/:questionNumber" element={<CreateQuestion />} />
                     <Route path="/my-quiz-setting" element={<MyQuizSetting />} />
                     <Route path="/account" element={<Account />} />
                 </Routes>
