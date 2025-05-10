@@ -37,7 +37,7 @@ const Dashboard = () => {
     }, [])
 
     const playQuiz = (quizId) => {
-        navigate(`/play-quiz/${quizId}/question/1`)
+        navigate(`/play-quiz/${quizId}/question/`)
     }
 
     return(
