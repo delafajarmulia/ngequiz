@@ -11,6 +11,7 @@ import Account from "../pages/account"
 import CreateQuiz from "../pages/create-quiz"
 import CreateQuestion from "../pages/create-question"
 import PlayQuiz from "../pages/play-quiz"
+import Success from "../pages/success"
 
 const Router = () => {
     return(
@@ -28,6 +29,7 @@ const Router = () => {
                     <Route path="/create-question/:questionNumber" element={<CreateQuestion />} />
                     <Route path="/my-quiz-setting" element={<MyQuizSetting />} />
                     <Route path="/account" element={<Account />} />
+                    <Route path="/success" element={<Success />} />
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
