@@ -8,8 +8,10 @@ import { useAuth } from "../../hooks/AuthContext"
 const MyQuiz = () => {
     const {url, token} = useAuth()
     const [user, setUser] = useState({})
+    const [optionIndex, setOptionIndex] = useState(null)
     const [quizzes, setQuizzes] = useState([])
     const [isQuizUnavailabled, setIsQuizUnavailabled] = useState('')
+    const [userPlays, setUserPlays] = useState([])
 
     useEffect(() => {
         (async(e) => {
@@ -39,6 +41,25 @@ const MyQuiz = () => {
         })()
     }, [])
 
+    useEffect(() => {
+        const fetchData = async() => {
+            if(optionIndex !== null){
+                await axios.get(`${url}/result/quiz/${optionIndex}`, {
+                    headers: {
+                        'Authorization': 'bearer ' + token
+                    }
+                }).then((response) => {
+                    setUserPlays(response.data.payload.datas)
+                }).catch((error) => {
+                    setUserPlays([])
+                    console.log(error)
+                })
+            }
+        }
+        
+        fetchData()
+    }, [optionIndex])
+
     return(
         <ContentLayout>
             <Hello name={user.name}/>
@@ -46,45 +67,38 @@ const MyQuiz = () => {
             <p className="mt-5 font-semibold">Yang udah coba kuis kamu</p>
             <p className="mt-2 font-medium text-sm">{isQuizUnavailabled ? isQuizUnavailabled : '' }</p>
             <select 
-                name="" 
-                id=""
+                value={optionIndex || ''}
+                onChange={(e) => setOptionIndex(e.target.value)}
                 className="w-full mt-2 p-2 border-2 border-border focus:border-border focus:outline-none rounded-md"
             >
+                <option value="" disabled>Pilih Quiz</option>
                 {quizzes.map((quiz) => (
-                    <option key={quiz.id} value={quiz.id}>{quiz.title}</option>
+                    <option 
+                        key={quiz.id} 
+                        value={quiz.id}
+                        onChange={() => setOptionIndex(quiz.id)}
+                    >
+                        {quiz.title}
+                    </option>
                 ))}
             </select>
+
             <div className="mt-5 mb-16">
-                <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Score: 80</p>
-                    <p className="text-xs">Waktu Penyelesaian: 02/02/2025 12:00:00</p>
-                </div>
-                <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Score: 80</p>
-                    <p className="text-xs">Waktu Penyelesaian: 02/02/2025 12:00:00</p>
-                </div>
-                <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Score: 80</p>
-                    <p className="text-xs">Waktu Penyelesaian: 02/02/2025 12:00:00</p>
-                </div>
-                <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Score: 80</p>
-                    <p className="text-xs">Waktu Penyelesaian: 02/02/2025 12:00:00</p>
-                </div>
-                <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Score: 80</p>
-                    <p className="text-xs">Waktu Penyelesaian: 02/02/2025 12:00:00</p>
-                </div>
-                <div className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85">
-                    <h2 className="text-lg">Pengetahuan Umum</h2>
-                    <p className="text-xs">Score: 80</p>
-                    <p className="text-xs">Waktu Penyelesaian: 02/02/2025 12:00:00</p>
-                </div>
+                {
+                    userPlays.length < 1 ? 
+                        <div className="text-center">Belum ada yang ngerjain nih</div>
+                    :
+                        userPlays.map((player) => (
+                            <div 
+                                key={player.id}
+                                className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85"
+                            >
+                                <h2 className="text-lg">{player.user.name}</h2>
+                                <p className="text-xs">Score: {player.score}</p>
+                                <p className="text-xs">Waktu Penyelesaian: {player.submitted_at}</p>
+                            </div>
+                        ))
+                }
             </div>
         </ContentLayout>
     )
