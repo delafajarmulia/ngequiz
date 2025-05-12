@@ -2,9 +2,11 @@ import { useEffect, useState } from "react"
 import { ContentLayout } from "../../components/ContentLayout"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const Account = () => {
     const {url, token} = useAuth()
+    const navigate = useNavigate()
     const [user, setUser] = useState({})
 
     useEffect(() => {
@@ -18,7 +20,8 @@ const Account = () => {
     }, [])
 
     const Logout = () => {
-        console.log('logout dipencet')
+        localStorage.removeItem('token')
+        navigate('/login')
     }
 
     return(
@@ -45,7 +48,7 @@ const Account = () => {
                 <div className="my-3">
                     <button 
                         onClick={() => Logout()}
-                        className="w-full py-1.5 mt-1 text-center bg-red-500 text-white rounded-md"
+                        className="w-full py-1.5 mt-1 text-center bg-red-500 text-white rounded-md hover:cursor-pointer"
                     >
                         Logout
                     </button>
