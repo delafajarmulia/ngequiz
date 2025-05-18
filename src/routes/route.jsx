@@ -3,7 +3,6 @@ import Landing from "../pages/landing"
 import Login from "../pages/login"
 import Registrasi from "../pages/registrasi"
 import Dashboard from "../pages/dashboard"
-import MyQuiz from "../pages/dashboard/MyQuiz"
 import { AuthProvider } from "../hooks/AuthContext"
 import QuizDone from "../pages/quiz-done"
 import MyQuizSetting from "../pages/my-quiz-setting"
@@ -12,6 +11,7 @@ import CreateQuiz from "../pages/create-quiz"
 import CreateQuestion from "../pages/create-question"
 import PlayQuiz from "../pages/play-quiz"
 import Success from "../pages/success"
+import Leaderboard from "../pages/dashboard/Leaderboard"
 
 const Router = () => {
     return(
@@ -23,7 +23,7 @@ const Router = () => {
                     <Route path="/registrasi" element={<Registrasi />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/play-quiz/:quizId/question" element={<PlayQuiz />} />
-                    <Route path="/my-quiz" element={<MyQuiz />} />
+                    <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="/quiz-done" element={<QuizDone />} />
                     <Route path="/create-quiz" element={<CreateQuiz />} />
                     <Route path="/create-question/:questionNumber" element={<CreateQuestion />} />

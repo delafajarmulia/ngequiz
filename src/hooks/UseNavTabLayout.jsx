@@ -5,18 +5,18 @@ const useNavTabLayout = () => {
     let location = useLocation()
     location = location.pathname
     const [isDashboardActive, setIsDashboardActive] = useState(false)
-    const [isMyQuizActive, setIsMyQuizActive] = useState(false)
+    const [isLeaderboardActive, setIsLeaderboardActive] = useState(false)
 
     useEffect(() => {
         setIsDashboardActive(false)
-        setIsMyQuizActive(false)
+        setIsLeaderboardActive(false)
         
         switch (location) {
             case '/dashboard':
                 setIsDashboardActive(true)
                 break;
-            case '/my-quiz':
-                setIsMyQuizActive(true)
+            case '/leaderboard':
+                setIsLeaderboardActive(true)
                 break;
             default:
                 break;
@@ -25,7 +25,7 @@ const useNavTabLayout = () => {
 
     return {
         isDashboardActive,
-        isMyQuizActive
+        isLeaderboardActive
     }
 }
 

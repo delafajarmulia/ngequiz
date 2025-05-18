@@ -5,7 +5,7 @@ import { TabLayout } from "../../components/TabLayout"
 import axios from "axios"
 import { useAuth } from "../../hooks/AuthContext"
 
-const MyQuiz = () => {
+const Leaderboard = () => {
     const {url, token} = useAuth()
     const [user, setUser] = useState({})
     const [optionIndex, setOptionIndex] = useState(null)
@@ -27,7 +27,7 @@ const MyQuiz = () => {
 
     useEffect(() => {
         (async(e) => {
-            await axios.get(`${url}/quiz/me`, {
+            await axios.get(`${url}/quiz/name`, {
                 headers: {
                     'Authorization': 'bearer ' + token
                 }
@@ -88,14 +88,18 @@ const MyQuiz = () => {
                     userPlays.length < 1 ? 
                         <div className="text-center">Belum ada yang ngerjain nih</div>
                     :
-                        userPlays.map((player) => (
+                        userPlays.map((player, idx) => (
                             <div 
                                 key={player.id}
-                                className="w-full bg-white rounded-lg p-5 pb-6.5 text-black border-2 border-border font-semibold my-2 cursor-pointer hover:opacity-85"
+                                className="w-full grid grid-cols-6 gap-3 my-2 cursor-pointer text-black font-semibold"
                             >
-                                <h2 className="text-lg">{player.user.name}</h2>
-                                <p className="text-xs">Score: {player.score}</p>
-                                <p className="text-xs">Waktu Penyelesaian: {player.submitted_at}</p>
+                                <div className="border-2 border-primary rounded-lg p-3 text-center">
+                                    <h1>#{idx + 1}</h1>
+                                </div>
+                                <div className="border-2 border-primary col-span-5 rounded-lg p-3 flex justify-between hover:bg-primary hover:text-white hover:border-2">
+                                    <h1>{player.user.name}</h1>
+                                    <h1>{player.score}</h1>
+                                </div>
                             </div>
                         ))
                 }
@@ -104,4 +108,4 @@ const MyQuiz = () => {
     )
 }
 
-export default MyQuiz
+export default Leaderboard
