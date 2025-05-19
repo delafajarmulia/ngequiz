@@ -65,11 +65,14 @@ const CreateQuestion = () => {
             Swal.fire({
                 title: "Ingin tambah soal lagi?",
                 showDenyButton: true,
+                denyButtonText: 'Tidak, sudah cukup',
                 confirmButtonText: "Iya",
-                denyButtonText: 'Tidak',
                 confirmButtonColor: '#42A5F5'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    setQuestion('')
+                    setOptions([])
+                    setCorrectOptionIndex(null)
                     navigate(`/create-question/${questionNumber + 1}`)
                 } else if (result.isDenied) {
                     localStorage.removeItem('quiz-id-created')
@@ -93,6 +96,7 @@ const CreateQuestion = () => {
                         className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-none"
                         placeholder="Masukkan pertanyaan"
                         required
+                        value={question}
                         onChange={(e) => setQuestion(e.target.value)}
                     ></textarea>
 
@@ -144,7 +148,7 @@ const CreateQuestion = () => {
             <div className="fixed bottom-0 left-0 w-full bg-white py-3 border-t border-gray-200 flex justify-center">
                 <button
                     type="button"
-                    className="text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md"
+                    className="text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md cursor-pointer"
                     onClick={createQuestion}
                 >
                     Simpan

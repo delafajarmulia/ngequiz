@@ -5,7 +5,7 @@ const Landing = () => {
     const navigate = useNavigate()
 
     return(
-        <div>
+        <div className='w-full bg-white'>
             {/* Navbar */}
             <div className="w-full h-fit bg-white border-b-2">
                 <div className="w-5xl mx-auto pt-3 pb-4 flex justify-between">

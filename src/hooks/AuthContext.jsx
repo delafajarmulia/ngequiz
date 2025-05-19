@@ -20,7 +20,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
   
       if (!storedToken) {
         setIsLoading(false);
-        return navigate("/login");
+        return navigate("/", { replace: true });
       }
   
       try {
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         console.error("Invalid token");
         localStorage.removeItem("token");
         setToken(null);
-        return navigate("/login");
+        return navigate("/", { replace: true });
       } finally {
         setIsLoading(false); // <- dijalankan di semua kondisi
       }
@@ -79,6 +79,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         Logout,
         token,
         isAuthenticated: !!token,
+        isLoading
       }}
     >
       {!isLoading && children}
