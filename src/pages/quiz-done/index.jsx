@@ -17,7 +17,6 @@ const QuizDone = () => {
             }).then((response) => {
                 const datas = response.data.payload.datas
                 setMyResults(datas)
-                console.log(datas)
             }).catch((error) => {
                 return
             })
