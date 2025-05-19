@@ -112,7 +112,7 @@ const PlayQuiz = () => {
                     currentQuestion && (
                         <>
                             <h3 className="my-2">
-                                {currentQuestion.question} {/** kenapa ini error? */}
+                                {currentQuestion.question}
                             </h3>
                             {currentQuestion.choices.map(choice => (
                                 <div 

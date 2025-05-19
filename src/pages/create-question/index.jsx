@@ -12,6 +12,7 @@ const CreateQuestion = () => {
     const [options, setOptions] = useState([])
     const [correctOptionIndex, setCorrectOptionIndex] = useState(null)
     const [quizId, setQuizId] = useState(0)
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     questionNumber = parseInt(questionNumber)
 
@@ -38,6 +39,7 @@ const CreateQuestion = () => {
 
     const createQuestion = async(e) => {
         e.preventDefault()
+        setIsSubmitting(true)
 
         const choices = options.map((opt, idx) => ({
             choice: opt.trim(),
@@ -73,6 +75,7 @@ const CreateQuestion = () => {
                     setQuestion('')
                     setOptions([])
                     setCorrectOptionIndex(null)
+                    setIsSubmitting(false)
                     navigate(`/create-question/${questionNumber + 1}`)
                 } else if (result.isDenied) {
                     localStorage.removeItem('quiz-id-created')
@@ -148,8 +151,13 @@ const CreateQuestion = () => {
             <div className="fixed bottom-0 left-0 w-full bg-white py-3 border-t border-gray-200 flex justify-center">
                 <button
                     type="button"
-                    className="text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md cursor-pointer"
+                    className={`text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md ${
+                        options.length < 2 || correctOptionIndex === null || isSubmitting
+                            ? 'opacity-50 cursor-not-allowed'
+                            : 'cursor-pointer'
+                    }`}
                     onClick={createQuestion}
+                    disabled={options.length < 2 || correctOptionIndex === null || isSubmitting}
                 >
                     Simpan
                 </button>
