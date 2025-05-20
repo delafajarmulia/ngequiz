@@ -6,6 +6,17 @@ const Login = () => {
     const {Login} = useAuth()
     const [email, setEmail] = useState('user1@gmail.com')
     const [password, setPassword] = useState('12345678')
+    const [isError, setIsError] = useState('')
+
+    const handleSubmit = async({ email, password }) => {
+        if(!email || !password){
+            setIsError('Email dan Password harus diisi!')
+        } else if (password.length < 8){
+            setIsError('Password minimal 8 karakter')
+        } else {
+            await Login({ email, password })
+        }
+    }
 
     return(
         <div className="w-full flex h-screen">
@@ -23,9 +34,14 @@ const Login = () => {
                 <div className="w-3/4 md:1/2">
                     <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
                     <p>Senang bisa ketemu lagi. Yuk, login disini!</p>
+                    <p className="pt-2 text-sm text-red-500">
+                        {
+                            isError
+                        }
+                    </p>
                     <form onSubmit={(e) => {
                         e.preventDefault()
-                        Login({ email, password })
+                        handleSubmit({ email, password })
                     }}>
                         <div className="my-3">
                             <p>Email</p>

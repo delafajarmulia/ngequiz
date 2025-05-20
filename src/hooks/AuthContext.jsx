@@ -44,24 +44,16 @@ export const AuthProvider = ({ children, isProtected = false }) => {
     verifyAndSetToken();
   }, []); 
   
-  const Register = async ({ name, email, password, confirmPassword }) => {
-    if(!name, !email, !password, !confirmPassword){
-      alert('pastikan seluruh data terisi dengan benar')
-    } else if (password.length < 8 || confirmPassword.length < 8) {
-      alert('password dan confirm password minimal 8 karakter')
-    } else if (password !== confirmPassword){
-      alert('pastikan password dan confirm password sama')
-    } else {
-      await axios.post(`${url}/user/auth/register`, {
-        name,
-        email, 
-        password
-      }).then((response) => {
-        Login({ email, password })
-      }).catch((err) => {
-        console.log(err)
-      })
-    }
+  const Register = async ({ name, email, password }) => {
+    await axios.post(`${url}/user/auth/register`, {
+      name,
+      email, 
+      password
+    }).then((response) => {
+      Login({ email, password })
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   const Login = async ({ email, password }) => {

@@ -8,6 +8,19 @@ const Registrasi = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [isError, setIsError] = useState('')
+
+    const handleSubmit = async({ name, email, password, confirmPassword }) => {
+        if(!name, !email, !password, !confirmPassword){
+            setIsError('pastikan seluruh data terisi dengan benar')
+        } else if (password.length < 8 || confirmPassword.length < 8) {
+            setIsError('password dan confirm password minimal 8 karakter')
+        } else if (password !== confirmPassword){
+            setIsError('pastikan password dan confirm password sama')
+        } else {
+            await Register({ name, email, password })
+        }
+    }
 
     return(
         <div className="w-full flex h-screen">
@@ -25,9 +38,14 @@ const Registrasi = () => {
                 <div className="w-3/4 md:1/2">
                     <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
                     <p>Buat akun dulu, yuk!</p>
+                    <p className="pt-2 text-sm text-red-500">
+                        {
+                            isError
+                        }
+                    </p>
                     <form onSubmit={(e) => {
                         e.preventDefault()
-                        Register({name, email, password, confirmPassword})
+                        handleSubmit({name, email, password, confirmPassword})
                     }}>
                         <div className="my-3">
                             <p>Nama</p>
