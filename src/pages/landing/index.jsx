@@ -15,7 +15,7 @@ const Landing = () => {
                         <h1>uiz</h1>
                     </div>
                     <button 
-                        className="bg-primary text-white font-medium py-1.5 px-2.5 rounded-md mt-2 cursor-pointer"
+                        className="bg-primary text-white font-medium py-1.5 px-3.5 rounded-md mt-2 cursor-pointer"
                         onClick={() => navigate('/login')}>
                         Ayo Main!
                     </button>
@@ -23,7 +23,7 @@ const Landing = () => {
             </div>
 
             {/* CTA */}
-            <div className='my-5 flex justify-between mx-auto w-full lg:w-3/4 px-3'>
+            <div className='my-16 flex justify-between mx-auto w-full lg:w-3/4 px-3'>
                 <div className='py-24 lg:pr-12'>
                     <div className='text-3xl font-semibold text-primary'>
                         <h1>Bikin & Main Quiz</h1>
@@ -36,7 +36,7 @@ const Landing = () => {
                         </p>
                     </div>
                     <button 
-                        className="bg-primary text-white font-medium py-1.5 px-3.5 rounded-md mt-2 cursor-pointer"
+                        className="bg-primary text-white font-medium py-2.5 px-3.5 rounded-md mt-2 cursor-pointer"
                         onClick={() => navigate('/login')}>
                         Main Sekarang!
                     </button>
@@ -101,6 +101,26 @@ const Landing = () => {
                     </p>
                     <p className='text-end font-semibold'>— Amelia, pengguna NgeQuiz</p>
                 </div>
+            </div>
+
+            {/* CTA Closing */}
+            <div className='w-full lg:w-3/4 grid lg:grid-cols-4 gap-x-5 gap-y-2 my-16 px-3 mx-auto'>
+                <p className='col-span-3'>
+                    Punya ide kuis seru atau mau tahu seberapa jago temanmu jawab soal buatanmu? 
+                    Yuk, mulai bikin kuismu sekarang juga di <span className='font-semibold text-primary'>NgeQuiz</span>! Biar main kuis jadi makin seru dan bisa dinikmati bareng teman-teman!
+                </p>
+                <button 
+                    className="bg-primary text-white font-medium py-2.5 px-3.5 rounded-md mt-2 cursor-pointer"
+                    onClick={() => navigate('/login')}>
+                    Main Sekarang!
+                </button>
+            </div>
+
+            {/* Footer */}
+            <div className='w-full py-8 mt-16 mx-auto bg-primary'>
+                <p className="text-center text-white ">
+                    Copyright &copy; NgeQuiz. All rights reserved.
+                </p>
             </div>
         </div>
     )
