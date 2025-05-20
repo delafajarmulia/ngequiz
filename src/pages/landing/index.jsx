@@ -7,7 +7,7 @@ const Landing = () => {
     return(
         <div className='w-full bg-white'>
             {/* Navbar */}
-            <div className="w-full h-fit bg-white shadow-2xs shadow-border py-3 mx-auto">
+            <div className="fixed top-0 w-full h-fit bg-white shadow-2xs shadow-border py-3 mx-auto">
                 <div className='w-full lg:w-3/4 flex justify-between mx-auto px-3'>
                     <div className="flex font-medium text-3xl">
                         <h1>Nge</h1>
@@ -70,6 +70,36 @@ const Landing = () => {
                     </div>
                     <h1 className='text-lg font-medium'>Skor Otomatis</h1>
                     <p>Habis jawab kuis, langsung muncul nilai kamu. Gak perlu tebak-tebakan.</p>
+                </div>
+            </div>
+
+            {/* Testimony */}
+            <div className='w-full lg:w-3/4 my-16 px-3 mx-auto'>
+                <h1 className='text-center font-semibold text-2xl text-primary mb-5'>Apa Kata Mereka?</h1>
+                <div className='border-b-2 border-border text-primary px-5 py-3'>
+                    <p>
+                        Aku bikin kuis soal anime favoritku, dan teman-temanku langsung pada semangat mainin. 
+                        Seru banget liat siapa yang bener-bener ngerti jalan ceritanya, dan kadang malah jadi bahan ketawaan bareng karena jawabannya nyeleneh!
+                    </p>
+                    <p className='text-end font-semibold'>— Denis, pengguna NgeQuiz</p>
+                </div>
+                <div className='border-b-2 border-border text-primary px-5 py-3'>
+                    <p>
+                        Aku bikin kuis buat belajar bareng temen-temen sebelum ujian, jadi lebih gampang nginget materinya. Belajarnya jadi nggak ngebosenin, malah kayak main bareng!
+                    </p>
+                    <p className='text-end font-semibold'>— Nadia, pengguna NgeQuiz</p>
+                </div>
+                <div className='border-b-2 border-border text-primary px-5 py-3'>
+                    <p>
+                        NgeQuiz ngebantu banget waktu aku jadi tutor sebaya. Tinggal bikin kuis dari materi pelajaran, terus langsung bisa latihan bareng temen-temen. Belajar jadi lebih santai tapi tetep masuk!
+                    </p>
+                    <p className='text-end font-semibold'>— Fajar, pengguna NgeQuiz</p>
+                </div>
+                <div className='border-b-2 border-border text-primary px-5 py-3'>
+                    <p>
+                        Dari pertama buka aja udah langsung ngerti cara pakenya. Tampilan NgeQuiz simple, enak dilihat, dan nggak bikin bingung — cocok banget buat semua orang!
+                    </p>
+                    <p className='text-end font-semibold'>— Amelia, pengguna NgeQuiz</p>
                 </div>
             </div>
         </div>
