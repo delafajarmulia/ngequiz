@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import question from '../../assets/question.jpeg'
+import question from '../../assets/question.png'
 
 const Landing = () => {
     const navigate = useNavigate()
@@ -7,46 +7,50 @@ const Landing = () => {
     return(
         <div className='w-full bg-white'>
             {/* Navbar */}
-            <div className="w-full h-fit bg-white border-b-2">
-                <div className="w-5xl mx-auto pt-3 pb-4 flex justify-between">
-                    <div className="flex">
-                        <h1 className="font-bold text-3xl text-black">NgeQuiz</h1>
-                        <div className="text-black pl-5 pt-2.5 grid grid-cols-3 gap-2 font-medium text-base">
-                            <a href="">Home</a>
-                            <a href="">About</a>
-                            <a href="">Contact</a>
-                        </div>
+            <div className="w-full h-fit bg-white shadow-2xs shadow-border py-3 mx-auto">
+                <div className='w-full lg:w-3/4 flex justify-between mx-auto px-3'>
+                    <div className="flex font-medium text-3xl">
+                        <h1>Nge</h1>
+                        <h1 className="bg-primary text-white px-1.5 pt-0.5 pb-1 font-bold rounded-md">Q</h1>
+                        <h1>uiz</h1>
                     </div>
-                    <div>
-                        <button 
-                            className="bg-primary text-white font-medium py-1.5 px-2.5 rounded-md mt-2 cursor-pointer"
-                            onClick={() => navigate('/login')}>
-                            Let's Play
-                        </button>
-                    </div>
+                    <button 
+                        className="bg-primary text-white font-medium py-1.5 px-2.5 rounded-md mt-2 cursor-pointer"
+                        onClick={() => navigate('/login')}>
+                        Ayo Main!
+                    </button>
                 </div>
             </div>
 
             {/* CTA */}
-            <div className="w-5xl mx-auto h-dvh flex items-center justify-between">
-                <div className="">
-                    <h1 className="font-bold text-4xl text-black">Play, Create, and Dominate</h1>
-                    <h1 className="font-bold text-4xl text-black">Only on NgeQuiz</h1>
-                    <h3 className="pt-3 text-md">Join the quiz community where everyone’s a player and a creator.</h3>
-                    <h3 className='text-md'>Discover endless quizzes or build your own in just minutes.</h3>
+            <div className='my-5 flex justify-between mx-auto w-full lg:w-3/4 px-3'>
+                <div className='py-24 lg:pr-12'>
+                    <div className='text-3xl font-semibold text-primary'>
+                        <h1>Bikin & Main Quiz</h1>
+                        <h1>Seru Bareng Teman!</h1>
+                    </div>
+                    <div className='my-7'>
+                        <p>
+                            Di <span className='text-primary font-medium'>NgeQuiz</span>, kamu bisa bikin kuis pilihan ganda sendiri dengan mudah, terus ajak teman-teman buat jawab bareng. 
+                            Cocok banget buat belajar seru bareng teman atau sekadar adu pengetahuan buat seru-seruan!
+                        </p>
+                    </div>
                     <button 
-                        className="bg-primary text-white font-medium text-lg py-2 px-3 rounded-md mt-2 cursor-pointer"
+                        className="bg-primary text-white font-medium py-1.5 px-3.5 rounded-md mt-2 cursor-pointer"
                         onClick={() => navigate('/login')}>
-                        Let's Play
+                        Main Sekarang!
                     </button>
                 </div>
-                <div>
-                    <img 
-                        src={question} 
-                        alt="Question" 
-                        className='w-96'
-                    />
-                </div>
+                <img 
+                    src={question} 
+                    alt="question" 
+                    className='hidden lg:block w-sm pl-5'
+                />
+            </div>
+
+            {/* Main Features */}
+            <div>
+                <p>test</p>
             </div>
         </div>
     )
