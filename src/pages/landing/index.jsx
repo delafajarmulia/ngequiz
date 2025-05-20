@@ -49,8 +49,28 @@ const Landing = () => {
             </div>
 
             {/* Main Features */}
-            <div>
-                <p>test</p>
+            <div className='w-full lg:w-3/4 mt-16 px-3 grid md:grid-cols-2 lg:grid-cols-3 mx-auto gap-x-4 gap-y-2.5'>
+                <div className='p-3 mx-auto border-1 bg-white text-primary rounded-md hover:shadow-border hover:shadow-lg text-center'>
+                    <div className='text-5xl pb-3'>
+                        📒
+                    </div>
+                    <h1 className='text-lg font-medium'>Quiz Pilihan Ganda</h1>
+                    <p>Buat kuis dengan soal pilihan ganda. Praktis dan cocok buat semua topik.</p>
+                </div>
+                <div className='p-3 mx-auto border-1 bg-white text-primary rounded-md hover:shadow-border hover:shadow-lg text-center'>
+                    <div className='text-5xl pb-3'>
+                        👀
+                    </div>
+                    <h1 className='text-lg font-medium'>Lihat Pembuat Quiz</h1>
+                    <p>Tiap kuis menampilkan nama pembuatnya, jadi kamu tahu siapa yang bikin tantangannya.</p>
+                </div>
+                <div className='p-3 mx-auto border-1 bg-white text-primary rounded-md hover:shadow-border hover:shadow-lg text-center'>
+                    <div className='text-5xl pb-3'>
+                        🏅
+                    </div>
+                    <h1 className='text-lg font-medium'>Skor Otomatis</h1>
+                    <p>Habis jawab kuis, langsung muncul nilai kamu. Gak perlu tebak-tebakan.</p>
+                </div>
             </div>
         </div>
     )
