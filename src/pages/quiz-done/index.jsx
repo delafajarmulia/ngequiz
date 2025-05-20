@@ -25,7 +25,7 @@ const QuizDone = () => {
 
     return(
         <ContentLayout>
-            <h1 className="text-center mt-3 text-black text-xl font-medium">Kuis yang Sudah Aku Kerjakan</h1>
+            <h1 className="text-center mt-3 text-black text-xl font-medium">Riwayat Quiz-ku</h1>
             <div className="mt-5 mb-16">
                 {
                     myResults.length < 1 ? 
