@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
+import { useState } from "react"
 
 const Login = () => {
-    const {email, setEmail, password, setPassword, Login} = useAuth()
+    const {Login} = useAuth()
+    const [email, setEmail] = useState('user1@gmail.com')
+    const [password, setPassword] = useState('12345678')
 
     return(
         <div className="w-full flex h-screen">
@@ -18,9 +21,12 @@ const Login = () => {
             {/* KANAN: tampil di semua ukuran */}
             <div className="w-full sm:w-1/2 bg-white flex justify-center items-center">
                 <div className="w-3/4 md:1/2">
-                    <h2 className="font-semibold text-2xl">Halo!</h2>
+                    <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
                     <p>Senang bisa ketemu lagi. Yuk, login disini!</p>
-                    <form onSubmit={(e) => Login(e)}>
+                    <form onSubmit={(e) => {
+                        e.preventDefault()
+                        Login({ email, password })
+                    }}>
                         <div className="my-3">
                             <p>Email</p>
                             <input 
