@@ -10,8 +10,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
   const url = "http://localhost:2007/api/v1";
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
-  // const [email, setEmail] = useState("user1@gmail.com");
-  // const [password, setPassword] = useState("12345678");
+  const [isResponseError, setIsResponseError] = useState('')
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +51,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
     }).then((response) => {
       Login({ email, password })
     }).catch((err) => {
-      console.log(err)
+      setIsResponseError(err.response.data.payload.message)
     })
   }
 
@@ -68,7 +67,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
       setTokenAction(tkn); // <- pastikan yang disimpan benar
       navigate('/dashboard')
     } catch (err) {
-      console.log(err?.response?.status + " " + password);
+      setIsResponseError(err.response.data.payload.message)
     }
   };
 
@@ -85,6 +84,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         Register,
         Login,
         Logout,
+        isResponseError,
         token,
         isAuthenticated: !!token,
         isLoading

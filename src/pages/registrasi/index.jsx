@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useState } from "react";
 
 const Registrasi = () => {
-    const {Register} = useAuth()
+    const {Register, isResponseError} = useAuth()
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ const Registrasi = () => {
                     <p>Buat akun dulu, yuk!</p>
                     <p className="pt-2 text-sm text-red-500">
                         {
-                            isError
+                            isError || isResponseError
                         }
                     </p>
                     <form onSubmit={(e) => {
