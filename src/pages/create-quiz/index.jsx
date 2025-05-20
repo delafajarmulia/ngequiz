@@ -49,7 +49,7 @@ const CreateQuiz = () => {
                 <h1 className="text-black text-xl font-medium text-center mt-3">Buat Quiz</h1>
                 <form onSubmit={(e) => createQuiz(e)}>
                     <div className="my-3">
-                        <p>Nama Kuis</p>
+                        <p>Nama Quiz</p>
                         <input 
                             className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                             type="text" 
@@ -60,7 +60,7 @@ const CreateQuiz = () => {
                         />
                     </div>
                     <div className="my-3">
-                        <p>Deskripsi Kuis</p>
+                        <p>Deskripsi Quiz</p>
                         <textarea 
                             className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                             placeholder="Masukkan deskripsi (opsional)"
@@ -69,7 +69,7 @@ const CreateQuiz = () => {
                         ></textarea>
                     </div>
                     <div className="my-3">
-                        <p>Apakah Kuis Ini Hanya Boleh Dikerjakan Sekali Saja?</p>
+                        <p>Apakah Quiz Ini Hanya Boleh Dikerjakan Sekali Saja?</p>
                         <select 
                             name="" id=""
                             className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
@@ -81,8 +81,12 @@ const CreateQuiz = () => {
                         </select>
                     </div>
                     <button
-                        className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
-                        Buat Kuis
+                        className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md mt-5
+                            ${title.length < 3 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                        `}
+                        disabled={title.length < 3}
+                    >
+                        Buat Quiz
                     </button>
                 </form>
             </div>

@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import Swal from "sweetalert2"
+import Navbar from "../../components/Navbar"
 
 const CreateQuestion = () => {
     const { url, token } = useAuth()
@@ -106,8 +107,9 @@ const CreateQuestion = () => {
 
     return (
         <div className="min-h-screen flex flex-col text-black bg-white">
+            <Navbar />
             {/* Kontainer konten utama */}
-            <div className="w-full lg:w-1/3 mx-auto my-2 px-5 pb-28">
+            <div className="w-full mt-20 lg:w-1/3 mx-auto my-2 px-5 pb-28">
                 <h1 className="text-center font-medium text-xl">Buat Pertanyaan</h1>
                 <p className="text-center text-primary">{quizName}</p>
 
