@@ -9,7 +9,7 @@ const Hello = ({name}) => {
                 className="w-12"    
             />
             <h1 className="font-bold md:text-md">
-                Hallo {name}! Mau NgeQuiz apa hari ini?
+                Hallo <span className='text-primary'>{name}</span>! Mau NgeQuiz apa hari ini?
             </h1>
         </div>
     )

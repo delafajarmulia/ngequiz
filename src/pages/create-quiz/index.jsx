@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ContentLayout } from "../../components/ContentLayout"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
@@ -10,6 +10,14 @@ const CreateQuiz = () => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [isOnce, setIsOnce] = useState(true)
+
+    useEffect(() => {
+        const isQuizCreatedAvailabled = localStorage.getItem('quiz-id-created')
+
+        if(isQuizCreatedAvailabled){
+            navigate('/create-question/1')
+        }
+    }, [])
 
     const createQuiz = async(e) => {
         e.preventDefault()
@@ -34,10 +42,11 @@ const CreateQuiz = () => {
             console.log(err)
         })
     }
+
     return(
         <ContentLayout>
             <div>
-                <h1 className="text-black text-xl font-bold text-center mt-3">Buat Kuis</h1>
+                <h1 className="text-black text-xl font-medium text-center mt-3">Buat Quiz</h1>
                 <form onSubmit={(e) => createQuiz(e)}>
                     <div className="my-3">
                         <p>Nama Kuis</p>

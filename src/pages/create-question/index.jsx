@@ -13,12 +13,29 @@ const CreateQuestion = () => {
     const [correctOptionIndex, setCorrectOptionIndex] = useState(null)
     const [quizId, setQuizId] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [quizName, setQuizName] = useState('')
 
     questionNumber = parseInt(questionNumber)
 
     useEffect(() => {
-        let id = localStorage.getItem('quiz-id-created')
-        setQuizId(parseInt(id))
+        (async(e) => {
+            let id = parseInt(localStorage.getItem('quiz-id-created'))
+    
+            if(!id){
+                navigate('/create-quiz')
+            } else {
+                setQuizId(id)
+                await axios.get(`${url}/quiz/${id}/name`, {
+                    headers: {
+                        'Authorization': 'bearer ' + token
+                    }
+                }).then((response) => {
+                    setQuizName(response.data.payload.datas.title)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+        })()
     }, [])
 
     const addOption = () => {
@@ -88,10 +105,11 @@ const CreateQuestion = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col text-black bg-gray-100">
+        <div className="min-h-screen flex flex-col text-black bg-white">
             {/* Kontainer konten utama */}
             <div className="w-full lg:w-1/3 mx-auto my-2 px-5 pb-28">
-                <h1 className="text-center font-bold text-xl text-primary">Buat Pertanyaan</h1>
+                <h1 className="text-center font-medium text-xl">Buat Pertanyaan</h1>
+                <p className="text-center text-primary">{quizName}</p>
 
                 <div className="my-3">
                     <p>Pertanyaan Nomor {questionNumber}</p>

@@ -58,7 +58,7 @@ const MyQuizSetting = () => {
 
     return(
         <ContentLayout>
-            <h1 className="text-center mt-3 text-black text-xl font-medium">Pengaturan Quiz</h1>
+            <h1 className="text-center mt-3 text-black text-xl font-medium">Quiz-ku</h1>
             <div className="mt-5 mb-16">
                 {
                     quizzes.length < 1 ? 
