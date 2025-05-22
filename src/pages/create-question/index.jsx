@@ -179,7 +179,7 @@ const CreateQuestion = () => {
                     onClick={createQuestion}
                     disabled={options.length < 2 || correctOptionIndex === null || isSubmitting}
                 >
-                    Simpan
+                    { isSubmitting ? 'Menyimpan...' : 'Simpan' }
                 </button>
             </div>
         </div>

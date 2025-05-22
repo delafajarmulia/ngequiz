@@ -12,6 +12,8 @@ const Leaderboard = () => {
     const [quizzes, setQuizzes] = useState([])
     const [isQuizUnavailabled, setIsQuizUnavailabled] = useState('')
     const [userPlays, setUserPlays] = useState([])
+    const [quizNameIsLoading, setQuizNameIsLoading] = useState(true)
+    const [fetchDataIsLoading, setFetchDataIsLoading] = useState(false)
 
     useEffect(() => {
         (async(e) => {
@@ -32,6 +34,7 @@ const Leaderboard = () => {
                     'Authorization': 'bearer ' + token
                 }
             }).then((response) => {
+                setQuizNameIsLoading(false)
                 setQuizzes(response.data.payload.datas)
             }).catch((err) => {
                 if(err.response.status == 404){
@@ -43,12 +46,14 @@ const Leaderboard = () => {
 
     useEffect(() => {
         const fetchData = async() => {
+            setFetchDataIsLoading(true)
             if(optionIndex !== null){
                 await axios.get(`${url}/result/quiz/${optionIndex}`, {
                     headers: {
                         'Authorization': 'bearer ' + token
                     }
                 }).then((response) => {
+                    setFetchDataIsLoading(false)
                     setUserPlays(response.data.payload.datas)
                 }).catch((error) => {
                     setUserPlays([])
@@ -72,36 +77,44 @@ const Leaderboard = () => {
                 className="w-full mt-2 p-2 border-2 border-border focus:border-border focus:outline-none rounded-md"
             >
                 <option value="" disabled>Pilih Quiz</option>
-                {quizzes.map((quiz) => (
-                    <option 
-                        key={quiz.id} 
-                        value={quiz.id}
-                        onChange={() => setOptionIndex(quiz.id)}
-                    >
-                        {quiz.title}
-                    </option>
-                ))}
+                {
+                    quizNameIsLoading ? 
+                        <option>Mengambil Quiz...</option>
+                    :
+                        quizzes.map((quiz) => (
+                            <option 
+                                key={quiz.id} 
+                                value={quiz.id}
+                                onChange={() => setOptionIndex(quiz.id)}
+                            >
+                                {quiz.title}
+                            </option>
+                        ))
+                }
             </select>
 
             <div className="mt-5 mb-16">
                 {
-                    userPlays.length < 1 ? 
-                        <div className="text-center">Belum ada yang ngerjain nih</div>
+                    fetchDataIsLoading ?
+                        <p className="text-center">Mengambil data...</p>
                     :
-                        userPlays.map((player, idx) => (
-                            <div 
-                                key={player.id}
-                                className="w-full grid grid-cols-6 gap-3 my-2 cursor-pointer text-black font-semibold"
-                            >
-                                <div className="border-2 border-primary rounded-lg p-3 text-center">
-                                    <h1>#{idx + 1}</h1>
+                        userPlays.length < 1 ? 
+                            <div className="text-center">Belum ada yang ngerjain nih</div>
+                        :
+                            userPlays.map((player, idx) => (
+                                <div 
+                                    key={player.id}
+                                    className="w-full grid grid-cols-6 gap-3 my-2 cursor-pointer text-black font-semibold"
+                                >
+                                    <div className="border-2 border-primary rounded-lg p-3 text-center">
+                                        <h1>#{idx + 1}</h1>
+                                    </div>
+                                    <div className="border-2 border-primary col-span-5 rounded-lg p-3 flex justify-between hover:bg-primary hover:text-white hover:border-2">
+                                        <h1>{player.user.name}</h1>
+                                        <h1>{player.score}</h1>
+                                    </div>
                                 </div>
-                                <div className="border-2 border-primary col-span-5 rounded-lg p-3 flex justify-between hover:bg-primary hover:text-white hover:border-2">
-                                    <h1>{player.user.name}</h1>
-                                    <h1>{player.score}</h1>
-                                </div>
-                            </div>
-                        ))
+                            ))
                 }
             </div>
         </ContentLayout>

@@ -3,17 +3,20 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useState } from "react"
 
 const Login = () => {
-    const {Login, isResponseError, isLoading} = useAuth()
-    const [email, setEmail] = useState('')
+    const {Login, isResponseError} = useAuth()
+    const [email, setEmail] = useState('dela.fjr08@gmail.com')
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async({ email, password }) => {
+        setIsLoading(true)
         if(!email || !password){
             setIsError('Email dan Password harus diisi!')
         } else if (password.length < 8){
             setIsError('Password minimal 8 karakter')
         } else {
+            setIsLoading(true)
             await Login({ email, password })
         }
     }
@@ -69,7 +72,7 @@ const Login = () => {
                             }`}
                             disabled={isLoading}
                         >
-                            Login
+                            {isLoading ? 'Login...' : 'Login'}
                         </button>
                     </form>
                     <p className="text-center">Belum punya akun?

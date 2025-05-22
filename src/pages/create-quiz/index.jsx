@@ -10,6 +10,7 @@ const CreateQuiz = () => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [isOnce, setIsOnce] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const isQuizCreatedAvailabled = localStorage.getItem('quiz-id-created')
@@ -21,6 +22,7 @@ const CreateQuiz = () => {
 
     const createQuiz = async(e) => {
         e.preventDefault()
+        setIsLoading(true)
 
         const newQuiz = {
             title, 
@@ -81,11 +83,11 @@ const CreateQuiz = () => {
                     </div>
                     <button
                         className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md mt-5
-                            ${title.length < 3 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                            ${title.length < 3 || isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                         `}
-                        disabled={title.length < 3}
+                        disabled={title.length < 3 || isLoading}
                     >
-                        Buat Quiz
+                        { isLoading ? 'Membuat Quiz...' : 'Buat Quiz'}
                     </button>
                 </form>
             </div>

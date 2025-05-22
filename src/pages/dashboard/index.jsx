@@ -11,6 +11,7 @@ const Dashboard = () => {
     const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [quizzes, setQuizzes] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         (async(e) => {
@@ -31,6 +32,7 @@ const Dashboard = () => {
                     'Authorization': 'bearer ' + token
                 }
             }).then((response) => {
+                setIsLoading(false)
                 setQuizzes(response.data.payload.datas)
             })
         })()
@@ -47,15 +49,19 @@ const Dashboard = () => {
             <TabLayout />
 
             <div className="mt-5 mb-16">
-                {quizzes.map(quiz => (
-                    <div 
-                        key={quiz.id} 
-                        onClick={() => playQuiz(quiz.id)}
-                        className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85"
-                    >
-                        <h2 className="text-lg">{quiz.title}</h2>
-                        <p className="text-xs">Pembuat: {quiz.creator.name}</p>
-                    </div>
+                {
+                    isLoading ? 
+                        <p className="text-center">Mengambil Quiz...</p>
+                    :
+                        quizzes.map(quiz => (
+                            <div 
+                                key={quiz.id} 
+                                onClick={() => playQuiz(quiz.id)}
+                                className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85"
+                            >
+                                <h2 className="text-lg">{quiz.title}</h2>
+                                <p className="text-xs">Pembuat: {quiz.creator.name}</p>
+                            </div>
                 ))}
             </div>
         </ContentLayout>

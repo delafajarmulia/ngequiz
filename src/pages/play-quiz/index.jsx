@@ -144,7 +144,7 @@ const PlayQuiz = () => {
                         onClick={submitAnswer}
                         disabled={isSubmitting || selectedAnswer === null}
                     >
-                        {isSubmitting ? 'Menyimpan' : 'Kirim Jawaban'}
+                        {isSubmitting ? 'Menyimpan...' : 'Kirim Jawaban'}
                     </button>
                 </div>
             </div>

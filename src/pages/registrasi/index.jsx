@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Registrasi = () => {
     const {Register, isResponseError} = useAuth()
-    const [name, setName] = useState("Dela Fajar Mulia");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");

@@ -44,6 +44,7 @@ const Landing = () => {
                 <img 
                     src={question} 
                     alt="question" 
+                    loading='lazy'
                     className='hidden lg:block w-sm pl-5'
                 />
             </div>
