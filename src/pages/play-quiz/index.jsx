@@ -138,7 +138,9 @@ const PlayQuiz = () => {
 
                 <div className="fixed bottom-0 left-0 w-full bg-white py-3 border-t border-gray-200 flex justify-center">
                     <button
-                        className="text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md hover:cursor-pointer"
+                        className={`text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md hover:cursor-pointer ${
+                                isSubmitting || !selectedAnswer ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                            }`}
                         onClick={submitAnswer}
                         disabled={isSubmitting || selectedAnswer === null}
                     >

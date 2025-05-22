@@ -6,7 +6,7 @@ import axios from "axios"
 import { useAuth } from "../../hooks/AuthContext"
 
 const Leaderboard = () => {
-    const {url, token} = useAuth()
+    const {url, token, name} = useAuth()
     const [user, setUser] = useState({})
     const [optionIndex, setOptionIndex] = useState(null)
     const [quizzes, setQuizzes] = useState([])
@@ -23,7 +23,7 @@ const Leaderboard = () => {
                 setUser(response.data.payload.datas)
             })
         })()
-    }, [])
+    }, [token])
 
     useEffect(() => {
         (async(e) => {
@@ -35,7 +35,7 @@ const Leaderboard = () => {
                 setQuizzes(response.data.payload.datas)
             }).catch((err) => {
                 if(err.response.status == 404){
-                    setIsQuizUnavailabled('Kamu belum pernah buat Quiz nih. Buat dulu yuk!')
+                    setIsQuizUnavailabled('Belum ada yang buat Quiz nih. Buat dulu yuk!')
                 }
             })
         })()

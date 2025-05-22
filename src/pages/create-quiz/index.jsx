@@ -35,7 +35,6 @@ const CreateQuiz = () => {
                 }
             }
         ).then((response) => {
-            console.log(response.data)
             localStorage.setItem('quiz-id-created', response.data.payload.datas.id)
             navigate('/create-question/1')
         }).catch((err) => {

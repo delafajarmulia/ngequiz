@@ -3,9 +3,9 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useState } from "react"
 
 const Login = () => {
-    const {Login, isResponseError} = useAuth()
-    const [email, setEmail] = useState('user1@gmail.com')
-    const [password, setPassword] = useState('12345678')
+    const {Login, isResponseError, isLoading} = useAuth()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [isError, setIsError] = useState('')
 
     const handleSubmit = async({ email, password }) => {
@@ -64,7 +64,11 @@ const Login = () => {
                             />
                         </div>
                         <button
-                            className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
+                            className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5 ${
+                                isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                            }`}
+                            disabled={isLoading}
+                        >
                             Login
                         </button>
                     </form>

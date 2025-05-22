@@ -7,7 +7,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
-    const {url, token} = useAuth()
+    const {url, token, name} = useAuth()
     const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [quizzes, setQuizzes] = useState([])
@@ -22,7 +22,7 @@ const Dashboard = () => {
                 setUser(response.data.payload.datas)
             })
         })()
-    }, [])
+    }, [token])
 
     useEffect(() => {
         (async(e) => {

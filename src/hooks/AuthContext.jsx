@@ -7,10 +7,12 @@ export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children, isProtected = false }) => {
-  const url = "http://localhost:2007/api/v1";
+  // const url = "http://localhost:2007/api/v1";
+  const url = "https://ap-is-ngequiz.vercel.app/api/v1"
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
   const [isResponseError, setIsResponseError] = useState('')
+  // const [name, setName] = ('')
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,12 +25,14 @@ export const AuthProvider = ({ children, isProtected = false }) => {
       }
   
       try {
-        await axios.get(`${url}/user/me`, {
+        const me = await axios.get(`${url}/user/me`, {
           headers: {
             Authorization: "bearer " + storedToken,
           },
         });
   
+        // console.log('from auth' + me.data.payload.datas.name)
+        // setName(me.data.payload.datas.name)
         setToken(storedToken);
       } catch (error) {
         console.error("Invalid token");
@@ -44,6 +48,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
   }, []); 
   
   const Register = async ({ name, email, password }) => {
+    setIsLoading(true)
     await axios.post(`${url}/user/auth/register`, {
       name,
       email, 
@@ -57,6 +62,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
 
   const Login = async ({ email, password }) => {
     try {
+      setIsLoading(true)
       const response = await axios.post(`${url}/user/auth/login`, {
         email,
         password,
@@ -66,6 +72,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
       setToken(tkn);
       setTokenAction(tkn); // <- pastikan yang disimpan benar
       navigate('/dashboard')
+      setIsLoading(false)
     } catch (err) {
       setIsResponseError(err.response.data.payload.message)
     }
@@ -86,6 +93,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         Logout,
         isResponseError,
         token,
+        // name,
         isAuthenticated: !!token,
         isLoading
       }}

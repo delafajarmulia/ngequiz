@@ -37,7 +37,7 @@ const CreateQuestion = () => {
                 })
             }
         })()
-    }, [])
+    }, [quizId])
 
     const addOption = () => {
         setOptions([...options, ''])
