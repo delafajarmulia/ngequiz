@@ -11,8 +11,10 @@ const Registrasi = () => {
     const [isError, setIsError] = useState('')
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = async({ name, email, password, confirmPassword }) => {
+        setIsLoading(true)
         if(!name, !email, !password, !confirmPassword){
             setIsError('pastikan seluruh data terisi dengan benar')
         } else if (password.length < 8 || confirmPassword.length < 8) {
@@ -20,6 +22,7 @@ const Registrasi = () => {
         } else if (password !== confirmPassword){
             setIsError('pastikan password dan confirm password sama')
         } else {
+            setIsLoading(true)
             await Register({ name, email, password })
         }
     }
@@ -98,8 +101,11 @@ const Registrasi = () => {
                             </div>
                         </div>
                         <button
-                            className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
-                            Daftar
+                            className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md mt-5 ${
+                                isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                            }`}
+                        >
+                            {isLoading ? 'Memproses...' : 'Daftar'}
                         </button>
                     </form>
                     <p className="text-center">Sudah punya akun?
