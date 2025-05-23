@@ -37,9 +37,9 @@ const PlayQuiz = () => {
     }
 
     
-    if(questions.length < 1){
-        return <div>Loading...</div>
-    }
+    // if(questions.length < 1){
+    //     return <div className="text-center">Loading...</div>
+    // }
     
     const getScore = async () => {
         try {
@@ -109,31 +109,34 @@ const PlayQuiz = () => {
                     </div>
                 </div>
                 {
-                    currentQuestion && (
-                        <>
-                            <h3 className="my-2">
-                                {currentQuestion.question}
-                            </h3>
-                            {currentQuestion.choices.map(choice => (
-                                <div 
-                                    key={choice.id}
-                                    className="border-border rounded-md border-1 p-3 my-2"
-                                >
-                                        <input 
-                                            type="radio" 
-                                            name={`question-${currentQuestion.id}`}
-                                            value={choice.id}
-                                            onChange={() => handleAnswerChange(choice.id)}
-                                            checked={selectedAnswer === choice.id}
-                                            className="hover:cursor-pointer"
-                                        />
-                                        <label className="px-2">
-                                            {choice.choice}
-                                        </label>
-                                </div>
-                            ))}
-                        </>
-                    )
+                    questions.length < 1 ?
+                        <p className="text-center">Mengambil pertanyaan...</p>
+                    :
+                        currentQuestion && (
+                            <>
+                                <h3 className="my-2">
+                                    {currentQuestion.question}
+                                </h3>
+                                {currentQuestion.choices.map(choice => (
+                                    <div 
+                                        key={choice.id}
+                                        className="border-border rounded-md border-1 p-3 my-2"
+                                    >
+                                            <input 
+                                                type="radio" 
+                                                name={`question-${currentQuestion.id}`}
+                                                value={choice.id}
+                                                onChange={() => handleAnswerChange(choice.id)}
+                                                checked={selectedAnswer === choice.id}
+                                                className="hover:cursor-pointer"
+                                            />
+                                            <label className="px-2">
+                                                {choice.choice}
+                                            </label>
+                                    </div>
+                                ))}
+                            </>
+                        )
                 }
 
                 <div className="fixed bottom-0 left-0 w-full bg-white py-3 border-t border-gray-200 flex justify-center">

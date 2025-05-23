@@ -56,6 +56,7 @@ const Leaderboard = () => {
                     setFetchDataIsLoading(false)
                     setUserPlays(response.data.payload.datas)
                 }).catch((error) => {
+                    fetchDataIsLoading(false)
                     setUserPlays([])
                     console.log(error)
                 })
@@ -69,7 +70,7 @@ const Leaderboard = () => {
         <ContentLayout>
             <Hello name={user.name}/>
             <TabLayout />
-            <p className="mt-5 font-semibold">Yang udah coba kuis kamu</p>
+            <p className="mt-5 font-semibold">Cek peringkat kamu</p>
             <p className="mt-2 font-medium text-sm">{isQuizUnavailabled ? isQuizUnavailabled : '' }</p>
             <select 
                 value={optionIndex || ''}

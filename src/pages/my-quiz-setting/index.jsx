@@ -83,7 +83,10 @@ const MyQuizSetting = () => {
                             quizzes.map(quiz => (
                                 <div 
                                     key={quiz.id}
-                                    className="w-full bg-white border-2 border-border p-3 my-2 rounded-lg hover:cursor-pointer hover:shadow-lg"
+                                    aria-disabled={removeIsLoading}
+                                    className={`w-full bg-white border-2 border-border p-3 my-2 rounded-lg hover:cursor-pointer hover:shadow-lg ${
+                                        removeIsLoading ? 'hover:cursor-not-allowed': ''
+                                    }`}
                                 >
                                     <div className="flex justify-between"> 
                                         <h1 className="font-semibold text-black text-lg">{quiz.title}</h1>

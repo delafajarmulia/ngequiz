@@ -9,6 +9,8 @@ const Registrasi = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isError, setIsError] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const handleSubmit = async({ name, email, password, confirmPassword }) => {
         if(!name, !email, !password, !confirmPassword){
@@ -70,22 +72,30 @@ const Registrasi = () => {
                         <div className="my-3">
                             <p>Password</p>
                             <input 
-                                type="password" 
+                                type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Minimal 8 karakter"
                                 className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                             />
+                            <div className="flex flex-cols mt-0.5">
+                                <input type="checkbox" onClick={() => setShowPassword(!showPassword)} /> 
+                                <p className="text-sm pl-1">lihat password</p>                  
+                            </div>
                         </div>
                         <div className="my-3">
                             <p>Ulangi Password</p>
                             <input 
-                                type="password" 
+                                type={showConfirmPassword ? 'text' : 'password'} 
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 placeholder="Minimal 8 karakter"
                                 className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
                             />
+                            <div className="flex flex-cols mt-0.5">
+                                <input type="checkbox" onClick={() => setShowConfirmPassword(!showConfirmPassword)} /> 
+                                <p className="text-sm pl-1">lihat password</p>                  
+                            </div>
                         </div>
                         <button
                             className="w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md cursor-pointer mt-5">
