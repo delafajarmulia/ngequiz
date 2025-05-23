@@ -18,9 +18,13 @@ const MyQuizSetting = () => {
         }).then((result) => {
             setIsLoading(false)
             setQuizzes(result.data.payload.datas)
-        }).catch((err) => {
+        }).catch((error) => {
             setIsLoading(false)
-            console.log(err)
+            const errorCode = error.response.status
+            
+            if(errorCode === 401){
+                unAuthUser(navigate)
+            }
         })
     }
 

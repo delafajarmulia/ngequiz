@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { unAuthUser } from "../../libs/redirect";
 
 const Registrasi = () => {
-    const {Register, isResponseError} = useAuth()
+    const {Register, isResponseError, token, url} = useAuth()
+    const navigate = useNavigate()
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -12,6 +15,26 @@ const Registrasi = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        if(token){
+            (async(e) => {
+                await axios.get(`${url}/user/me`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+                }).then((response) => {
+                    navigate('/dashboard', { replace: true })
+                }).catch((error) => {
+                    const errorCode = error.response.status
+
+                    if(errorCode === 401){
+                        unAuthUser(navigate)
+                    }
+                })
+            })()
+        }
+    }, [])
 
     const handleSubmit = async({ name, email, password, confirmPassword }) => {
         setIsLoading(true)

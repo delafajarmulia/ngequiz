@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 import Navbar from "../../components/Navbar"
+import { unAuthUser } from "../../libs/redirect"
 
 const PlayQuiz = () => {
     const {url, token} = useAuth()
@@ -27,6 +28,11 @@ const PlayQuiz = () => {
                 setQuizName(result.title)
                 setQuestions(result.questions)
             }).catch(error => {
+                const errorCode = error.response.status
+                    
+                if(errorCode === 401){
+                    unAuthUser(navigate)
+                }
                 console.log(error)
             })
         })()
@@ -35,11 +41,6 @@ const PlayQuiz = () => {
     const handleAnswerChange = (answerId) => {
         setSelectedAnswer(answerId)
     }
-
-    
-    // if(questions.length < 1){
-    //     return <div className="text-center">Loading...</div>
-    // }
     
     const getScore = async () => {
         try {

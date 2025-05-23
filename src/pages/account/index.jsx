@@ -3,6 +3,7 @@ import { ContentLayout } from "../../components/ContentLayout"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { unAuthUser } from "../../libs/redirect"
 
 const Account = () => {
     const {url, token} = useAuth()
@@ -19,6 +20,12 @@ const Account = () => {
         }).then((response) => {
             setIsLoading(false)
             setUser(response.data.payload.datas)
+        }).catch((error) => {
+            const errorCode = error.response.status
+            
+            if(errorCode === 401){
+                unAuthUser(navigate)
+            }
         })
     }, [])
 

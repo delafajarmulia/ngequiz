@@ -4,9 +4,12 @@ import Hello from "../../components/Hello"
 import { TabLayout } from "../../components/TabLayout"
 import axios from "axios"
 import { useAuth } from "../../hooks/AuthContext"
+import { unAuthUser } from "../../libs/redirect"
+import { useNavigate } from "react-router-dom"
 
 const Leaderboard = () => {
     const {url, token, name} = useAuth()
+    const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [optionIndex, setOptionIndex] = useState(null)
     const [quizzes, setQuizzes] = useState([])
@@ -17,12 +20,20 @@ const Leaderboard = () => {
 
     useEffect(() => {
         (async(e) => {
+            console.log(token)
             await axios.get(`${url}/user/me`, {
                 headers: {
                     'Authorization': 'bearer ' + token
                 }
             }).then((response) => {
                 setUser(response.data.payload.datas)
+            }).catch((error) => {
+                console.log(error.response.status)
+                const errorCode = error.response.status
+                
+                if(errorCode === 401){
+                    unAuthUser(navigate)
+                }
             })
         })()
     }, [token])
@@ -37,7 +48,9 @@ const Leaderboard = () => {
                 setQuizNameIsLoading(false)
                 setQuizzes(response.data.payload.datas)
             }).catch((err) => {
-                if(err.response.status == 404){
+                const errorCode = err.response.status
+
+                if(errorCode == 404){
                     setIsQuizUnavailabled('Belum ada yang buat Quiz nih. Buat dulu yuk!')
                 }
             })

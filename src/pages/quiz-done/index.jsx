@@ -21,7 +21,11 @@ const QuizDone = () => {
                 setMyResults(datas)
             }).catch((error) => {
                 setIsLoading(false)
-                return
+                const errorCode = error.response.status
+                            
+                if(errorCode === 401){
+                    unAuthUser(navigate)
+                }
             })
         })()
     }, [])

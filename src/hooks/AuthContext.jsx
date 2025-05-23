@@ -23,25 +23,9 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         setIsLoading(false);
         return navigate("/", { replace: true });
       }
-  
-      try {
-        const me = await axios.get(`${url}/user/me`, {
-          headers: {
-            Authorization: "bearer " + storedToken,
-          },
-        });
-  
-        // console.log('from auth' + me.data.payload.datas.name)
-        // setName(me.data.payload.datas.name)
-        setToken(storedToken);
-      } catch (error) {
-        console.error("Invalid token");
-        localStorage.removeItem("token");
-        setToken(null);
-        return navigate("/", { replace: true });
-      } finally {
-        setIsLoading(false); // <- dijalankan di semua kondisi
-      }
+
+      setIsLoading(false)
+      setToken(storedToken)
     };
   
     verifyAndSetToken();

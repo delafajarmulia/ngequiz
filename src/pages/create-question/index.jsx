@@ -4,6 +4,7 @@ import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import Swal from "sweetalert2"
 import Navbar from "../../components/Navbar"
+import { unAuthUser } from "../../libs/redirect"
 
 const CreateQuestion = () => {
     const { url, token } = useAuth()
@@ -32,8 +33,12 @@ const CreateQuestion = () => {
                     }
                 }).then((response) => {
                     setQuizName(response.data.payload.datas.title)
-                }).catch((err) => {
-                    console.log(err)
+                }).catch((error) => {
+                    const errorCode = error.response.status
+                    
+                    if(errorCode === 401){
+                        unAuthUser(navigate)
+                    }
                 })
             }
         })()

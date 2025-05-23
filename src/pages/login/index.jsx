@@ -1,14 +1,37 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { unAuthUser } from "../../libs/redirect"
 
 const Login = () => {
-    const {Login, isResponseError} = useAuth()
+    const {Login, isResponseError, token, url} = useAuth()
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isError, setIsError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+
+    useEffect(() => {
+        if(token){
+            (async(e) => {
+                await axios.get(`${url}/user/me`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+                }).then((response) => {
+                    navigate('/dashboard', { replace: true })
+                }).catch((error) => {
+                    const errorCode = error.response.status
+
+                    if(errorCode === 401){
+                        unAuthUser(navigate)
+                    }
+                })
+            })()
+        }
+    }, [])
 
     const handleSubmit = async({ email, password }) => {
         setIsLoading(true)

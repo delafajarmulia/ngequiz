@@ -3,6 +3,7 @@ import { ContentLayout } from "../../components/ContentLayout"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
+import { unAuthUser } from "../../libs/redirect"
 
 const CreateQuiz = () => {
     const navigate = useNavigate()
@@ -11,6 +12,22 @@ const CreateQuiz = () => {
     const [description, setDescription] = useState('')
     const [isOnce, setIsOnce] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        (async(e) => {
+            await axios.get(`${url}/user/me`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+            }).catch((error) => {
+                const errorCode = error.response.status
+
+                if(errorCode === 401){
+                    unAuthUser(navigate)
+                }
+            })
+        })()
+    }, [])
 
     useEffect(() => {
         const isQuizCreatedAvailabled = localStorage.getItem('quiz-id-created')
