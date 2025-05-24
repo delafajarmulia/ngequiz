@@ -20,7 +20,6 @@ const Leaderboard = () => {
 
     useEffect(() => {
         (async(e) => {
-            console.log(token)
             await axios.get(`${url}/user/me`, {
                 headers: {
                     'Authorization': 'bearer ' + token

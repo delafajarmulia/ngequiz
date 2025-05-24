@@ -30,6 +30,8 @@ const Login = () => {
                     }
                 })
             })()
+        } else {
+            navigate('/login')
         }
     }, [])
 

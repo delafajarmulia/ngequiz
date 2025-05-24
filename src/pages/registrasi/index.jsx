@@ -33,6 +33,8 @@ const Registrasi = () => {
                     }
                 })
             })()
+        } else {
+            navigate('/registrasi')
         }
     }, [])
 

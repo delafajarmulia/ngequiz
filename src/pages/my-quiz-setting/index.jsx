@@ -3,6 +3,7 @@ import { ContentLayout } from "../../components/ContentLayout"
 import axios from "axios"
 import { useAuth } from "../../hooks/AuthContext"
 import Swal from "sweetalert2"
+import { Link } from "react-router-dom"
 
 const MyQuizSetting = () => {
     const { url, token } = useAuth()
@@ -106,6 +107,12 @@ const MyQuizSetting = () => {
                                             Jumlah soal: {quiz._count.questions}
                                         </p>
                                     </div>
+                                    <Link
+                                        to={`/quiz-detail/${quiz.id}`}
+                                        className="text-xs font-semibold text-primary mt-3"
+                                    >
+                                        Lihat detail
+                                    </Link>
                                 </div>
                             ))
                 }

@@ -58,6 +58,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
       navigate('/dashboard')
       setIsLoading(false)
     } catch (err) {
+      console.log(err.response.data.payload.message)
       setIsResponseError(err.response.data.payload.message)
     }
   };
