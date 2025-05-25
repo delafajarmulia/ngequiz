@@ -3,8 +3,8 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { unAuthUser } from "../../libs/redirect"
-import { GoogleLogin } from "@react-oauth/google"
-import { jwtDecode } from "jwt-decode"
+import { useGoogleLogin } from "@react-oauth/google"
+import { FcGoogle } from "react-icons/fc"
 
 const Login = () => {
     const {Login, LoginWithGoogle, isResponseError, token, url} = useAuth()
@@ -14,6 +14,7 @@ const Login = () => {
     const [isError, setIsError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
+    const [responseError, setResponseError] = useState('')
 
     useEffect(() => {
         if(token){
@@ -40,16 +41,46 @@ const Login = () => {
     }, [])
 
     const handleSubmit = async({ email, password }) => {
+        setIsError('')
         setIsLoading(true)
         if(!email || !password){
             setIsError('Email dan Password harus diisi!')
+            setIsLoading(false)
+            return
         } else if (password.length < 8){
             setIsError('Password minimal 8 karakter')
-        } else {
+            setIsLoading(false)
+            return
+        } 
+
+        try {
             setIsLoading(true)
             await Login({ email, password })
+        } catch (err) {
+            setResponseError(err.message)
+            console.log(responseError)
+            setIsLoading(false)
         }
     }
+
+    const handleLoginWithGoogle = useGoogleLogin({
+        onSuccess: async(tokenResponse) => {
+            setIsLoading(true)
+            try {
+                const { data: userInfo } = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: {
+                        Authorization: `Bearer ${tokenResponse.access_token}`
+                    }
+                })
+                
+                LoginWithGoogle(userInfo.email)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        onError: error => console.log('login failed')
+    })
 
     return(
         <div className="w-full flex h-screen">
@@ -67,11 +98,12 @@ const Login = () => {
                 <div className="w-3/4 md:1/2">
                     <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
                     <p>Senang bisa ketemu lagi. Yuk, login disini!</p>
-                    <p className="pt-2 text-sm text-red-500">
-                        {
-                            isError || isResponseError
-                        }
-                    </p>
+                    {(isError || isResponseError || responseError) && (
+                        <p className="pt-2 text-sm text-red-500">
+                            {(isError || isResponseError || responseError)?.toString()}
+                        </p>
+                    )}
+
                     <form onSubmit={(e) => {
                         e.preventDefault()
                         handleSubmit({ email, password })
@@ -124,17 +156,15 @@ const Login = () => {
                             <span>atau</span>
                             <div className="flex-1 h-px bg-gray-300"></div>
                         </div>
-                        <GoogleLogin 
-                            onSuccess={(credentialResponse) => {
-                                setIsLoading(true)
-                                const decoded = jwtDecode(credentialResponse.credential)
-                                LoginWithGoogle(decoded.email)
-                            }}
 
-                            onError={() => console.log('login failed')}
-
+                        <button 
+                            onClick={handleLoginWithGoogle}
                             disabled={isLoading}
-                        />
+                            className="w-full py-2 hover:cursor-pointer border-2 border-border rounded-lg flex items-center justify-center gap-2"
+                        >
+                            <FcGoogle className="text-lg"/> 
+                            { isLoading ? 'Loading...' : 'Login dengan Google'}
+                        </button>
                     </div>
                 </div>
             </div>

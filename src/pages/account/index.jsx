@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { unAuthUser } from "../../libs/redirect"
 
 const Account = () => {
-    const {url, token} = useAuth()
+    const {url, token, setToken} = useAuth()
     const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [isLoading, setIsLoading] = useState(false)
@@ -31,6 +31,7 @@ const Account = () => {
 
     const Logout = () => {
         localStorage.removeItem('token')
+        setToken(null)
         navigate('/login')
     }
 

@@ -58,6 +58,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
       navigate('/dashboard')
       setIsLoading(false)
     } catch (err) {
+      setIsLoading(false)
       console.log(err.response.data.payload.message)
       setIsResponseError(err.response.data.payload.message)
     }
@@ -75,6 +76,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
     }).catch((error) => {
       console.log(error)
       setIsResponseError(err.response.data.payload.message)
+      setIsLoading(false)
     })
   }
 
@@ -94,6 +96,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         Logout,
         isResponseError,
         token,
+        setToken,
         // name,
         isAuthenticated: !!token,
         isLoading
