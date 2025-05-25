@@ -63,6 +63,21 @@ export const AuthProvider = ({ children, isProtected = false }) => {
     }
   };
 
+  const LoginWithGoogle = async(email) => {
+    await axios.post(`${url}/user/auth/login/google`, {
+      email
+    }).then((response) => {
+      const tkn = response.data.payload.datas;
+      setToken(tkn);
+      setTokenAction(tkn); // <- pastikan yang disimpan benar
+      navigate('/dashboard')
+      setIsLoading(false)
+    }).catch((error) => {
+      console.log(error)
+      setIsResponseError(err.response.data.payload.message)
+    })
+  }
+
   const Logout = () => {
     setToken(null);
     localStorage.removeItem("token");
@@ -75,6 +90,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         url,
         Register,
         Login,
+        LoginWithGoogle,
         Logout,
         isResponseError,
         token,

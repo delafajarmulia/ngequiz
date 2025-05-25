@@ -3,9 +3,11 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { unAuthUser } from "../../libs/redirect"
+import { GoogleLogin } from "@react-oauth/google"
+import { jwtDecode } from "jwt-decode"
 
 const Login = () => {
-    const {Login, isResponseError, token, url} = useAuth()
+    const {Login, LoginWithGoogle, isResponseError, token, url} = useAuth()
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -27,6 +29,8 @@ const Login = () => {
 
                     if(errorCode === 401){
                         unAuthUser(navigate)
+                    } else if (errorCode !== 401){
+                        navigate('/login')
                     }
                 })
             })()
@@ -113,6 +117,25 @@ const Login = () => {
                                 Buat disini
                         </Link>
                     </p>
+
+                    <div className="mt-4">
+                        <div className="flex items-center gap-4 text-gray-500 text-sm mb-2">
+                            <div className="flex-1 h-px bg-gray-300"></div>
+                            <span>atau</span>
+                            <div className="flex-1 h-px bg-gray-300"></div>
+                        </div>
+                        <GoogleLogin 
+                            onSuccess={(credentialResponse) => {
+                                setIsLoading(true)
+                                const decoded = jwtDecode(credentialResponse.credential)
+                                LoginWithGoogle(decoded.email)
+                            }}
+
+                            onError={() => console.log('login failed')}
+
+                            disabled={isLoading}
+                        />
+                    </div>
                 </div>
             </div>
         </div>

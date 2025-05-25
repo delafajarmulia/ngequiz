@@ -3,6 +3,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { unAuthUser } from "../../libs/redirect";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Registrasi = () => {
     const {Register, isResponseError, token, url} = useAuth()
@@ -30,6 +31,8 @@ const Registrasi = () => {
 
                     if(errorCode === 401){
                         unAuthUser(navigate)
+                    } else if (errorCode !== 401){
+                        navigate('/registrasi')
                     }
                 })
             })()
@@ -141,6 +144,9 @@ const Registrasi = () => {
                                 Login disini
                         </Link>
                     </p>
+                    {/* <GoogleLogin 
+                        buttonText="Registrasi dengan Google"
+                    /> */}
                 </div>
             </div>
         </div>
