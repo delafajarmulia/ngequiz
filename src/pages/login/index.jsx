@@ -65,6 +65,33 @@ const Login = () => {
         }
     }
 
+    const handleLoginWithGoogle = useGoogleLogin({
+        flow: 'implicit', // atau cukup hilangkan `flow`, default-nya implicit
+        onSuccess: async (tokenResponse) => {
+            try {
+            const { access_token } = tokenResponse;
+
+            // Ambil data user dari Google
+            const { data: userInfo } = await axios.get(
+                'https://www.googleapis.com/oauth2/v3/userinfo',
+                {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+                }
+            );
+
+            console.log(userInfo); // ← email, name, picture, dsb.
+            LoginWithGoogle(userInfo.email)
+            } catch (err) {
+            console.error('Gagal ambil user info:', err);
+            }
+        },
+        onError: (error) => {
+            console.log('Google login failed', error);
+        },
+    });
+
     return(
         <div className="w-full flex h-screen">
             {
@@ -148,7 +175,7 @@ const Login = () => {
                                     <div className="flex-1 h-px bg-gray-300"></div>
                                 </div>
 
-                                <GoogleLogin 
+                                {/* <GoogleLogin 
                                     onSuccess={(credentialResponse) => {
                                         setIsLoading(true)
                                         const decoded = jwtDecode(credentialResponse.credential)
@@ -158,7 +185,15 @@ const Login = () => {
                                     onError={() => console.log('login failed')}
 
                                     disabled={isLoading}
-                                />
+                                /> */}
+                                <button 
+                                    onClick={handleLoginWithGoogle}
+                                    disabled={isLoading}
+                                    className="w-full py-2 hover:cursor-pointer border-2 border-border rounded-lg flex items-center justify-center gap-2"
+                                >
+                                    <FcGoogle className="text-lg"/> 
+                                    { isLoading ? 'Loading...' : 'Login dengan Google'}
+                                </button>
                             </div>
                         </div>
                     </div>
