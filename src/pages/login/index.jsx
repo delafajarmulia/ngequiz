@@ -65,25 +65,6 @@ const Login = () => {
         }
     }
 
-    // const handleLoginWithGoogle = useGoogleLogin({
-    //     onSuccess: async(tokenResponse) => {
-    //         setIsLoading(true)
-    //         try {
-    //             const { data: userInfo } = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${tokenResponse.access_token}`
-    //                 }
-    //             })
-                
-    //             LoginWithGoogle(userInfo.email)
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     },
-
-    //     onError: error => console.log('login failed')
-    // })
-
     return(
         <div className="w-full flex h-screen">
             {
@@ -178,14 +159,6 @@ const Login = () => {
 
                                     disabled={isLoading}
                                 />
-                                {/* <button 
-                                    onClick={handleLoginWithGoogle}
-                                    disabled={isLoading}
-                                    className="w-full py-2 hover:cursor-pointer border-2 border-border rounded-lg flex items-center justify-center gap-2"
-                                >
-                                    <FcGoogle className="text-lg"/> 
-                                    { isLoading ? 'Loading...' : 'Login dengan Google'}
-                                </button> */}
                             </div>
                         </div>
                     </div>
