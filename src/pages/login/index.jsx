@@ -2,8 +2,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useGoogleLogin } from "@react-oauth/google"
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google"
 import { FcGoogle } from "react-icons/fc"
+import { jwtDecode } from "jwt-decode"
 
 const Login = () => {
     const {Login, LoginWithGoogle, isResponseError, token, setToken, url} = useAuth()
@@ -64,24 +65,24 @@ const Login = () => {
         }
     }
 
-    const handleLoginWithGoogle = useGoogleLogin({
-        onSuccess: async(tokenResponse) => {
-            setIsLoading(true)
-            try {
-                const { data: userInfo } = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-                    headers: {
-                        Authorization: `Bearer ${tokenResponse.access_token}`
-                    }
-                })
+    // const handleLoginWithGoogle = useGoogleLogin({
+    //     onSuccess: async(tokenResponse) => {
+    //         setIsLoading(true)
+    //         try {
+    //             const { data: userInfo } = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${tokenResponse.access_token}`
+    //                 }
+    //             })
                 
-                LoginWithGoogle(userInfo.email)
-            } catch (error) {
-                console.log(error)
-            }
-        },
+    //             LoginWithGoogle(userInfo.email)
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     },
 
-        onError: error => console.log('login failed')
-    })
+    //     onError: error => console.log('login failed')
+    // })
 
     return(
         <div className="w-full flex h-screen">
@@ -166,14 +167,25 @@ const Login = () => {
                                     <div className="flex-1 h-px bg-gray-300"></div>
                                 </div>
 
-                                <button 
+                                <GoogleLogin 
+                                    onSuccess={(credentialResponse) => {
+                                        setIsLoading(true)
+                                        const decoded = jwtDecode(credentialResponse.credential)
+                                        LoginWithGoogle(decoded.email)
+                                    }}
+
+                                    onError={() => console.log('login failed')}
+
+                                    disabled={isLoading}
+                                />
+                                {/* <button 
                                     onClick={handleLoginWithGoogle}
                                     disabled={isLoading}
                                     className="w-full py-2 hover:cursor-pointer border-2 border-border rounded-lg flex items-center justify-center gap-2"
                                 >
                                     <FcGoogle className="text-lg"/> 
                                     { isLoading ? 'Loading...' : 'Login dengan Google'}
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </div>
