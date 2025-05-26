@@ -40,6 +40,8 @@ export const AuthProvider = ({ children, isProtected = false }) => {
     }).then((response) => {
       Login({ email, password })
     }).catch((err) => {
+      setIsLoading(false)
+      // console.log(err.response.data.payload.message)
       setIsResponseError(err.response.data.payload.message)
     })
   }

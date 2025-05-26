@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { unAuthUser } from "../../libs/redirect";
-import { GoogleLogin } from "@react-oauth/google";
 
 const Registrasi = () => {
     const {Register, isResponseError, token, url} = useAuth()
@@ -16,6 +14,7 @@ const Registrasi = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [responseError, setResponseError] = useState('')
 
     useEffect(() => {
         if(token){
@@ -30,7 +29,9 @@ const Registrasi = () => {
                     const errorCode = error.response.status
 
                     if(errorCode === 401){
-                        unAuthUser(navigate)
+                        localStorage.removeItem('token')
+                        setToken(null)
+                        return 
                     } else if (errorCode !== 401){
                         navigate('/registrasi')
                     }
@@ -45,13 +46,25 @@ const Registrasi = () => {
         setIsLoading(true)
         if(!name, !email, !password, !confirmPassword){
             setIsError('pastikan seluruh data terisi dengan benar')
+            setIsLoading(false)
+            return
         } else if (password.length < 8 || confirmPassword.length < 8) {
             setIsError('password dan confirm password minimal 8 karakter')
+            setIsLoading(false)
+            return
         } else if (password !== confirmPassword){
             setIsError('pastikan password dan confirm password sama')
+            setIsLoading(false)
+            return
         } else {
-            setIsLoading(true)
-            await Register({ name, email, password })
+            try {
+                setIsLoading(true)
+                await Register({ name, email, password })
+            } catch (err) {
+                setResponseError(err.message)
+                console.log(responseError)
+                setIsLoading(false)
+            }
         }
     }
 
@@ -71,11 +84,13 @@ const Registrasi = () => {
                 <div className="w-3/4 md:1/2">
                     <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
                     <p>Buat akun dulu, yuk!</p>
-                    <p className="pt-2 text-sm text-red-500">
-                        {
-                            isError || isResponseError
-                        }
-                    </p>
+                    {(isError || isResponseError || responseError) && (
+                        <p className="pt-2 text-sm text-red-500">
+                            {
+                                (isError || isResponseError || responseError)?.toString()
+                            }
+                        </p>
+                    )}
                     <form onSubmit={(e) => {
                         e.preventDefault()
                         handleSubmit({name, email, password, confirmPassword})
@@ -144,9 +159,6 @@ const Registrasi = () => {
                                 Login disini
                         </Link>
                     </p>
-                    {/* <GoogleLogin 
-                        buttonText="Registrasi dengan Google"
-                    /> */}
                 </div>
             </div>
         </div>
