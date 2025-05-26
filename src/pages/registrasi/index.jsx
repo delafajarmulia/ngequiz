@@ -70,97 +70,106 @@ const Registrasi = () => {
 
     return(
         <div className="w-full flex h-screen">
-            {/* KIRI: tampil hanya di desktop (sm ke atas) */}
-            <div className="hidden sm:flex bg-primary w-1/2 justify-center items-center">
-                <div className="flex text-white font-medium text-3xl">
-                    <h1>Nge</h1>
-                    <h1 className="bg-white text-primary px-1.5 pt-0.5 pb-1 font-bold rounded-md">Q</h1>
-                    <h1>uiz</h1>
-                </div>
-            </div>
+            {
+                isLoading ? 
+                    <div className="mt-5">
+                        <p className="text-center">Loading...</p>
+                    </div>
+                :
+                <>
+                    {/* KIRI: tampil hanya di desktop (sm ke atas) */}
+                    <div className="hidden sm:flex bg-primary w-1/2 justify-center items-center">
+                        <div className="flex text-white font-medium text-3xl">
+                            <h1>Nge</h1>
+                            <h1 className="bg-white text-primary px-1.5 pt-0.5 pb-1 font-bold rounded-md">Q</h1>
+                            <h1>uiz</h1>
+                        </div>
+                    </div>
 
-            {/* KANAN: tampil di semua ukuran */}
-            <div className="w-full sm:w-1/2 bg-white flex justify-center items-center">
-                <div className="w-3/4 md:1/2">
-                    <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
-                    <p>Buat akun dulu, yuk!</p>
-                    {(isError || isResponseError || responseError) && (
-                        <p className="pt-2 text-sm text-red-500">
-                            {
-                                (isError || isResponseError || responseError)?.toString()
-                            }
-                        </p>
-                    )}
-                    <form onSubmit={(e) => {
-                        e.preventDefault()
-                        handleSubmit({name, email, password, confirmPassword})
-                    }}>
-                        <div className="my-3">
-                            <p>Nama</p>
-                            <input 
-                                type="text" 
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                placeholder="Jhon Doe"
-                                className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
-                            />
+                    {/* KANAN: tampil di semua ukuran */}
+                    <div className="w-full sm:w-1/2 bg-white flex justify-center items-center">
+                        <div className="w-3/4 md:1/2">
+                            <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
+                            <p>Buat akun dulu, yuk!</p>
+                            {(isError || isResponseError || responseError) && (
+                                <p className="pt-2 text-sm text-red-500">
+                                    {
+                                        (isError || isResponseError || responseError)?.toString()
+                                    }
+                                </p>
+                            )}
+                            <form onSubmit={(e) => {
+                                e.preventDefault()
+                                handleSubmit({name, email, password, confirmPassword})
+                            }}>
+                                <div className="my-3">
+                                    <p>Nama</p>
+                                    <input 
+                                        type="text" 
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        placeholder="Jhon Doe"
+                                        className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
+                                    />
+                                </div>
+                                <div className="my-3">
+                                    <p>Email</p>
+                                    <input 
+                                        type="email" 
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="jhon@example.com"
+                                        className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
+                                    />
+                                </div>
+                                <div className="my-3">
+                                    <p>Password</p>
+                                    <input 
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Minimal 8 karakter"
+                                        className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
+                                    />
+                                    <div className="flex flex-cols mt-0.5">
+                                        <input type="checkbox" onClick={() => setShowPassword(!showPassword)} /> 
+                                        <p className="text-sm pl-1">lihat password</p>                  
+                                    </div>
+                                </div>
+                                <div className="my-3">
+                                    <p>Ulangi Password</p>
+                                    <input 
+                                        type={showConfirmPassword ? 'text' : 'password'} 
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        placeholder="Minimal 8 karakter"
+                                        className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
+                                    />
+                                    <div className="flex flex-cols mt-0.5">
+                                        <input type="checkbox" onClick={() => setShowConfirmPassword(!showConfirmPassword)} /> 
+                                        <p className="text-sm pl-1">lihat password</p>                  
+                                    </div>
+                                </div>
+                                <button
+                                    className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md mt-5 ${
+                                        isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                                    }`}
+                                >
+                                    {isLoading ? 'Memproses...' : 'Daftar'}
+                                </button>
+                            </form>
+                            <p className="text-center">Sudah punya akun?
+                                <Link
+                                    className="text-primary underline pl-1 cursor-pointer"
+                                    to={'/login'}
+                                >
+                                        Login disini
+                                </Link>
+                            </p>
                         </div>
-                        <div className="my-3">
-                            <p>Email</p>
-                            <input 
-                                type="email" 
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="jhon@example.com"
-                                className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
-                            />
-                        </div>
-                        <div className="my-3">
-                            <p>Password</p>
-                            <input 
-                                type={showPassword ? 'text' : 'password'}
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Minimal 8 karakter"
-                                className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
-                            />
-                            <div className="flex flex-cols mt-0.5">
-                                <input type="checkbox" onClick={() => setShowPassword(!showPassword)} /> 
-                                <p className="text-sm pl-1">lihat password</p>                  
-                            </div>
-                        </div>
-                        <div className="my-3">
-                            <p>Ulangi Password</p>
-                            <input 
-                                type={showConfirmPassword ? 'text' : 'password'} 
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                placeholder="Minimal 8 karakter"
-                                className="w-full px-2 py-1.5 mt-1 border-2 border-border rounded-md focus:border-primary focus:outline-hidden"
-                            />
-                            <div className="flex flex-cols mt-0.5">
-                                <input type="checkbox" onClick={() => setShowConfirmPassword(!showConfirmPassword)} /> 
-                                <p className="text-sm pl-1">lihat password</p>                  
-                            </div>
-                        </div>
-                        <button
-                            className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md mt-5 ${
-                                isLoading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                            }`}
-                        >
-                            {isLoading ? 'Memproses...' : 'Daftar'}
-                        </button>
-                    </form>
-                    <p className="text-center">Sudah punya akun?
-                        <Link
-                            className="text-primary underline pl-1 cursor-pointer"
-                            to={'/login'}
-                        >
-                                Login disini
-                        </Link>
-                    </p>
-                </div>
-            </div>
+                    </div>
+                </>
+            }
         </div>
 
     )

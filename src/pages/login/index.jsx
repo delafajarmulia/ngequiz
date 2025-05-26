@@ -88,7 +88,9 @@ const Login = () => {
             {
                 // isLoading-nya kenapa belum work? frustasi cikk
                 isLoading ? 
-                    <div className="text-center mt-5">Loading...</div>
+                    <div className="mt-5">
+                        <p className="text-center">Loading...</p>
+                    </div>
                 :
                 <>
                     {/* KIRI: tampil hanya di desktop (sm ke atas) */}
