@@ -66,9 +66,27 @@ export const AuthProvider = ({ children, isProtected = false }) => {
     }
   };
 
-  const LoginWithGoogle = async(email) => {
+  const LoginWithGoogle = async(email, name) => {
     await axios.post(`${url}/user/auth/login/google`, {
-      email
+      email,
+      name
+    }).then((response) => {
+      const tkn = response.data.payload.datas;
+      setToken(tkn);
+      setTokenAction(tkn); // <- pastikan yang disimpan benar
+      navigate('/dashboard')
+      setIsLoading(false)
+    }).catch((error) => {
+      console.log(error)
+      setIsResponseError(err.response.data.payload.message)
+      setIsLoading(false)
+    })
+  }
+
+  const RegistWithGoogle = async(email, name) => {
+    await axios.post(`${url}/user/auth/register/google`, {
+      email,
+      name
     }).then((response) => {
       const tkn = response.data.payload.datas;
       setToken(tkn);
@@ -95,6 +113,7 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         Register,
         Login,
         LoginWithGoogle,
+        RegistWithGoogle,
         Logout,
         isResponseError,
         token,

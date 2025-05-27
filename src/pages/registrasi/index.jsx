@@ -2,9 +2,11 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
+import { FcGoogle } from "react-icons/fc"
 
 const Registrasi = () => {
-    const {Register, isResponseError, token, url} = useAuth()
+    const {Register, isResponseError, RegistWithGoogle, token, url} = useAuth()
     const navigate = useNavigate()
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -67,6 +69,36 @@ const Registrasi = () => {
             }
         }
     }
+
+    const handleRegistWithGoogle = useGoogleLogin({
+        flow: 'implicit', // atau cukup hilangkan `flow`, default-nya implicit
+        onSuccess: async (tokenResponse) => {
+            try {
+            const { access_token } = tokenResponse;
+
+            // Ambil data user dari Google
+            const { data: userInfo } = await axios.get(
+                'https://www.googleapis.com/oauth2/v3/userinfo',
+                {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+                }
+            );
+
+            // console.log(userInfo); // ← email, name, picture, dsb.
+            setIsLoading(true)
+            RegistWithGoogle(userInfo.email, userInfo.name)
+            } catch (err) {
+                setIsLoading(false)
+                console.error('Gagal ambil user info:', err);
+            }
+        },
+        onError: (error) => {
+            setIsLoading(false)
+            console.log('Google login failed', error);
+        },
+    });
 
     return(
         <div className="w-full flex h-screen">
@@ -166,6 +198,22 @@ const Registrasi = () => {
                                         Login disini
                                 </Link>
                             </p>
+
+                            <div className="mt-4">
+                                <div className="flex items-center gap-4 text-gray-500 text-sm mb-2">
+                                    <div className="flex-1 h-px bg-gray-300"></div>
+                                    <span>atau</span>
+                                    <div className="flex-1 h-px bg-gray-300"></div>
+                                </div>
+                                <button 
+                                    onClick={handleRegistWithGoogle}
+                                    disabled={isLoading}
+                                    className="w-full py-2 hover:cursor-pointer border-2 border-border rounded-lg flex items-center justify-center gap-2"
+                                >
+                                    <FcGoogle className="text-lg"/> 
+                                    { isLoading ? 'Loading...' : 'Daftar dengan Google'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </>

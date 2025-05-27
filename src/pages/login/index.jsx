@@ -81,13 +81,16 @@ const Login = () => {
                 }
             );
 
-            console.log(userInfo); // ← email, name, picture, dsb.
-            LoginWithGoogle(userInfo.email)
+            // console.log(userInfo); // ← email, name, picture, dsb.
+            setIsLoading(true)
+            LoginWithGoogle(userInfo.email, userInfo.name)
             } catch (err) {
-            console.error('Gagal ambil user info:', err);
+                setIsLoading(false)
+                console.error('Gagal ambil user info:', err);
             }
         },
         onError: (error) => {
+            setIsLoading(false)
             console.log('Google login failed', error);
         },
     });
@@ -174,18 +177,6 @@ const Login = () => {
                                     <span>atau</span>
                                     <div className="flex-1 h-px bg-gray-300"></div>
                                 </div>
-
-                                {/* <GoogleLogin 
-                                    onSuccess={(credentialResponse) => {
-                                        setIsLoading(true)
-                                        const decoded = jwtDecode(credentialResponse.credential)
-                                        LoginWithGoogle(decoded.email)
-                                    }}
-
-                                    onError={() => console.log('login failed')}
-
-                                    disabled={isLoading}
-                                /> */}
                                 <button 
                                     onClick={handleLoginWithGoogle}
                                     disabled={isLoading}
