@@ -28,6 +28,7 @@ const QuizResult = () => {
                     title: result.title, 
                     description: result.description ?? null
                 })
+                console.log(result)
                 setQuestions(result.questions)
             }).catch((error) => {
                 const errorCode = error.response.status
@@ -43,6 +44,7 @@ const QuizResult = () => {
 
     useEffect(() => {
         (async(e) => {
+            // logic ini perlu diganti di be juga
             await axios.get(`${url}/answer/quiz/${quizId}`, {
                 headers: {
                     'Authorization': 'bearer ' + token
@@ -75,7 +77,7 @@ const QuizResult = () => {
                                     key={idx}
                                     className="w-full border-2 border-border rounded-lg px-5 py-3 pb-6.5 my-3"
                                 >
-                                    <p>{ques.question} {ques.id}</p>
+                                    <p>{ques.question}</p>
 
                                     {ques.choices.map((choice) => {
                                         const isUserAnswer = choice.id === answer?.choice_id;

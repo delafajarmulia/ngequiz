@@ -58,6 +58,7 @@ const QuizDone = () => {
                                 >
                                         <p className="font-medium">{myResult.quiz.title}</p>
                                         <p className="text-sm">Score: {myResult.score}</p>
+                                        <p>{myResult.id}</p>
                                         {/* <p className="text-sm">Waktu Penyelesaian: {myResult.submitted_at}</p> */}
                                         <Link
                                             to={`/quiz-result/${myResult.quiz_id}`}
