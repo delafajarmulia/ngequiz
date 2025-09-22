@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 import { unAuthUser } from "../../libs/redirect"
+import Swal from "sweetalert2"
 
 const CreateQuiz = () => {
     const navigate = useNavigate()
@@ -39,6 +40,17 @@ const CreateQuiz = () => {
 
     const createQuiz = async(e) => {
         e.preventDefault()
+
+        if(title.length< 3){
+            Swal.fire({
+                icon: "error",
+                title: "Ups...",
+                text: "Nama kuis terlalu pendek, minimal 3 karakter."
+            })
+            setIsLoading(false)
+            return
+        }
+
         setIsLoading(true)
 
         const newQuiz = {
@@ -100,9 +112,9 @@ const CreateQuiz = () => {
                     </div>
                     <button
                         className={`w-full pt-1.5 pb-2 bg-primary text-white font-semibold rounded-md mt-5
-                            ${title.length < 3 || isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                            ${ isLoading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                         `}
-                        disabled={title.length < 3 || isLoading}
+                        disabled={ isLoading}
                     >
                         { isLoading ? 'Membuat Quiz...' : 'Buat Quiz'}
                     </button>
