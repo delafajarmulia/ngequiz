@@ -17,7 +17,7 @@ const Success = () => {
                 </div>
                 <div className="text-center text-black font-bold text-xl my-3">
                     <h1>Yeay, kamu udah selesai!</h1>
-                    <p className="pt-1 font-medium text-base">Score kamu: {score}</p>
+                    <p className="pt-1 font-medium text-base">Score kamu: {score}</p> 
                 </div>
                 <div className="text-center">
                     <p>Terima kasih udah ngerjain kuisnya.</p>

@@ -14,8 +14,10 @@ const PlayQuiz = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [selectedAnswer, setSelectedAnswer] = useState(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const resultId = parseInt(localStorage.getItem('result-id'))
 
     quizId = parseInt(quizId)
+    // console.log(quizId)
 
     useEffect(() => {
         (async(e) => {
@@ -41,35 +43,25 @@ const PlayQuiz = () => {
     const handleAnswerChange = (answerId) => {
         setSelectedAnswer(answerId)
     }
-    
-    const getScore = async () => {
-        try {
-            const response = await axios.post(`${url}/result`, JSON.stringify({
-                quiz_id: quizId
-            }), {
-                headers: {
-                    'Authorization': 'bearer ' + token,
-                    'Content-Type': 'application/json'
-                }
-            });
-    
-            const score = response.data.payload.datas.score;
-            return score;
-    
-        } catch (error) {
-            console.log(error);
-            return null;
-        }
-    }
 
     const currentQuestion = questions[currentQuestionIndex]
 
     const submitAnswer = async () => {
         const data = {
             question_id: currentQuestion.id,
-            choice_id: selectedAnswer
+            choice_id: selectedAnswer,
+            result_id: resultId,
+            is_last: false
         };
     
+        // PENTING: currentQuestionIndex + 1 karena kamu baru saja menambahkannya ↑
+        const nextIndex = currentQuestionIndex + 1;
+        if(nextIndex <= questions.length){
+            data.is_last = false
+        } else {
+            data.is_last = true
+        }
+
         setIsSubmitting(true);
     
         try {
@@ -82,15 +74,14 @@ const PlayQuiz = () => {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
             setSelectedAnswer(null);
             setIsSubmitting(false);
-    
-            // PENTING: currentQuestionIndex + 1 karena kamu baru saja menambahkannya ↑
-            const nextIndex = currentQuestionIndex + 1;
-    
-            if (nextIndex >= questions.length) {
-                const score = await getScore();
-                return navigate('/success', { state: { score } });
+
+            if(nextIndex >= questions.length){
+                localStorage.removeItem('quiz-playing-id')
+                localStorage.removeItem('result-id')
+
+                const score = response.data.payload.datas.score
+                return navigate('/success', {state: { score }}); 
             }
-    
         } catch (error) {
             console.log(error);
             setIsSubmitting(false);

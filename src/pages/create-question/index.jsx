@@ -64,6 +64,16 @@ const CreateQuestion = () => {
         e.preventDefault()
         setIsSubmitting(true)
 
+        if(question.length < 3){
+            Swal.fire({
+                icon: "error",
+                title: "Ups...",
+                text: "Pertanyaan terlalu pendek, minimal 3 huruf ya."
+            })
+            setIsSubmitting(false)
+            return
+        }
+
         const choices = options.map((opt, idx) => ({
             choice: opt.trim(),
             is_correct: idx === correctOptionIndex
@@ -71,7 +81,12 @@ const CreateQuestion = () => {
         .filter(opt => opt.choice !== '')
 
         if(!choices.some(c => c.is_correct)){
-            alert('opsi jawaban yg benar belum ditentukan!')
+            Swal.fire({
+                icon: "error",
+                title: "Ups...",
+                text: "Pilih dulu jawaban yang benar sebelum lanjut, ya!"
+            })
+            setIsSubmitting(false)
             return
         }
 
@@ -172,6 +187,18 @@ const CreateQuestion = () => {
                 <button
                     type="button"
                     className={`text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md ${
+                            isSubmitting
+                            ? 'opacity-50 cursor-not-allowed'
+                            : 'cursor-pointer'
+                    }`}
+                    onClick={createQuestion}
+                    disabled={isSubmitting}
+                >
+                    { isSubmitting ? 'Menyimpan...' : 'Simpan' }
+                </button>
+                {/* <button
+                    type="button"
+                    className={`text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md ${
                         options.length < 2 || correctOptionIndex === null || isSubmitting
                             ? 'opacity-50 cursor-not-allowed'
                             : 'cursor-pointer'
@@ -180,7 +207,7 @@ const CreateQuestion = () => {
                     disabled={options.length < 2 || correctOptionIndex === null || isSubmitting}
                 >
                     { isSubmitting ? 'Menyimpan...' : 'Simpan' }
-                </button>
+                </button> */}
             </div>
         </div>
     )
