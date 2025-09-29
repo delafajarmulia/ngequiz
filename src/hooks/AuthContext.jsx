@@ -8,8 +8,8 @@ export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children, isProtected = false }) => {
-  const url = "http://localhost:2007/api/v1";
-  // const url = import.meta.env.VITE_API_URL
+  // const url = "http://localhost:2007/api/v1";
+  const url = import.meta.env.VITE_API_URL
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
   const [isResponseError, setIsResponseError] = useState('')
@@ -17,18 +17,6 @@ export const AuthProvider = ({ children, isProtected = false }) => {
   const navigate = useNavigate();
   
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY
-  // const ai = new GoogleGenAI({ apiKey: geminiApiKey})
-  
-  // const getMessageFromGemini = async() => {
-  //   const response = ai.models.generateContent({
-  //     model: 'gemini-2.5-flash',
-  //     contents: 'apa itu polines?'
-  //   })
-
-  //   console.log((await response).text)
-  // }
-
-  // getMessageFromGemini();
 
   useEffect(() => {
     const verifyAndSetToken = async () => {
@@ -56,7 +44,6 @@ export const AuthProvider = ({ children, isProtected = false }) => {
       Login({ email, password })
     }).catch((err) => {
       setIsLoading(false)
-      // console.log(err.response.data.payload.message)
       setIsResponseError(err.response.data.payload.message)
     })
   }
