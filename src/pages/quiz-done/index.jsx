@@ -52,21 +52,31 @@ const QuizDone = () => {
                             </div>
                             : 
                             myResults.map(myResult => (
-                                <div 
+                                <Link
+                                    to={`/quiz/${myResult.quiz_id}/result/${myResult.id}`}
                                     key={myResult.id}
-                                    className="w-full my-2 px-5 py-3.5 border-2 border-border rounded-md hover:cursor-pointer hover:shadow-lg"
                                 >
-                                        <p className="font-medium">{myResult.quiz.title}</p>
-                                        <p className="text-sm">Score: {myResult.score}</p>
-                                        <p>{myResult.id}</p>
-                                        {/* <p className="text-sm">Waktu Penyelesaian: {myResult.submitted_at}</p> */}
-                                        <Link
-                                            to={`/quiz-result/${myResult.quiz_id}`}
-                                            className="text-xs font-semibold text-primary mt-3"
-                                        >
-                                            Lihat jawaban
-                                        </Link>
-                                </div>
+                                    <div 
+                                        key={myResult.id}
+                                        className="w-full my-2 px-5 py-3.5 border-2 border-border rounded-md hover:cursor-pointer hover:shadow-lg"
+                                    >
+                                            <p className="font-medium">{myResult.quiz.title}</p>
+                                            <p className="text-sm">Score: {myResult.score}</p>
+                                            {/* <p>{myResult.id}</p> */}
+                                            {/* <p className="text-sm">Waktu Penyelesaian: {myResult.submitted_at}</p> */}
+                                            {/* <Link
+                                                to={`/quiz-result/${myResult.quiz_id}`}
+                                                className="text-xs font-semibold text-primary mt-3"
+                                            >
+                                                Lihat jawaban
+                                            </Link> */}
+                                            <p
+                                                className="text-xs font-semibold text-primary mt-3"
+                                            >
+                                                Lihat jawaban
+                                            </p>
+                                    </div>
+                                </Link>
                             ))
                 }
                 

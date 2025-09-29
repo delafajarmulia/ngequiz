@@ -46,12 +46,16 @@ const Dashboard = () => {
     }, [])
 
     const playQuiz = async(quizId) => {
-        await axios.post(`${url}/result`, JSON.stringify({quiz_id: quizId}), {
+        await axios.post(`${url}/result`, {quiz_id: quizId}, {
             headers: {
                 'Authorization': 'bearer ' + token
             }
         }).then((response) => {
+            const resultId = response.data.payload.datas.id
+            
             localStorage.setItem('quiz-playing-id', quizId)
+            localStorage.setItem('result-id', resultId)
+            
             navigate(`/play-quiz/${quizId}/question/`)
         }).catch((error) => {
             console.log(error)

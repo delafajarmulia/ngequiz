@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState, createContext, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { setTokenAction, getTokenAction } from "../libs/auth-libs";
+import { GoogleGenAI } from "@google/genai";
 
 export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -14,6 +15,20 @@ export const AuthProvider = ({ children, isProtected = false }) => {
   const [isResponseError, setIsResponseError] = useState('')
   // const [name, setName] = ('')
   const navigate = useNavigate();
+  
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY
+  // const ai = new GoogleGenAI({ apiKey: geminiApiKey})
+  
+  // const getMessageFromGemini = async() => {
+  //   const response = ai.models.generateContent({
+  //     model: 'gemini-2.5-flash',
+  //     contents: 'apa itu polines?'
+  //   })
+
+  //   console.log((await response).text)
+  // }
+
+  // getMessageFromGemini();
 
   useEffect(() => {
     const verifyAndSetToken = async () => {
@@ -120,7 +135,8 @@ export const AuthProvider = ({ children, isProtected = false }) => {
         setToken,
         // name,
         isAuthenticated: !!token,
-        isLoading
+        isLoading,
+        geminiApiKey
       }}
     >
       {!isLoading && children}

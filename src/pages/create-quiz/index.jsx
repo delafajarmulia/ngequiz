@@ -56,10 +56,12 @@ const CreateQuiz = () => {
         const newQuiz = {
             title, 
             description,
-            is_once : isOnce
+            is_once : isOnce === 'true' ? true : false
         }
 
-        await axios.post(`${url}/quiz`, newQuiz,
+        console.log(newQuiz)
+
+        await axios.post(`${url}/quiz/`, newQuiz,
             {
                 headers: {
                     'Authorization': 'bearer ' +token
@@ -67,6 +69,7 @@ const CreateQuiz = () => {
             }
         ).then((response) => {
             localStorage.setItem('quiz-id-created', response.data.payload.datas.id)
+            console.log(response.data)
             navigate('/create-question/1')
         }).catch((err) => {
             console.log(err)
