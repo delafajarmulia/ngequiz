@@ -148,7 +148,7 @@ const QuizResult = () => {
 
     return(
         <ContentLayout>
-            <div className="mt-2 mb-16">
+            <div className="mt-2 mb-16 ">
                 <h1 className="text-center text-primary font-medium text-xl">{data.title}</h1>
                 <p className="mt-3">{data.description ?? null}</p>
                 <p className="">Jumlah soal: {questions.length} soal</p>
@@ -261,13 +261,16 @@ const QuizResult = () => {
                                 Kirim
                             </button>
                         </div>
+                        
                     </div>
+                    
                 )}
+                
             </div>
 
             {/* FAB di pojok kanan bawah kontainer */}
             {/* FAB Dekstop */}
-            <div className="hidden md:flex fixed bottom-[80px] right-135 justify-end">
+            <div className="hidden md:flex fixed bottom-[80px] right-[35%] justify-end">
                 <button
                     onClick={() => setShowModal(true)}
                     className="bg-primary hover:opacity-85 text-white p-4 cursor-pointer rounded-full shadow-lg transition transform hover:scale-110 focus:outline-none"
@@ -285,6 +288,8 @@ const QuizResult = () => {
                     <FiPlus size={24} />
                 </button>
             </div>
+            
+
         </ContentLayout>
     )
 }
