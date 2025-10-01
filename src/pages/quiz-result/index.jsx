@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import { ContentLayout } from "../../components/ContentLayout"
-import { FiPlus, FiX } from "react-icons/fi"
+import { FiMessageCircle } from "react-icons/fi"
 import { GoogleGenAI } from "@google/genai"
 import ReactMarkdown from "react-markdown"
 
@@ -275,7 +275,7 @@ const QuizResult = () => {
                     onClick={() => setShowModal(true)}
                     className="bg-primary hover:opacity-85 text-white p-4 cursor-pointer rounded-full shadow-lg transition transform hover:scale-110 focus:outline-none"
                 >
-                    <FiPlus size={24} />
+                    <FiMessageCircle size={24} />
                 </button>
             </div>
 
@@ -285,7 +285,7 @@ const QuizResult = () => {
                     onClick={() => setShowModal(true)}
                     className="bg-primary hover:opacity-85 text-white p-4 cursor-pointer rounded-full shadow-lg transition transform hover:scale-110 focus:outline-none"
                 >
-                    <FiPlus size={24} />
+                    <FiMessageCircle size={24} />
                 </button>
             </div>
             
