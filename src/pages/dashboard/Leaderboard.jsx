@@ -59,6 +59,7 @@ const Leaderboard = () => {
     useEffect(() => {
         const fetchData = async() => {
             setFetchDataIsLoading(true)
+            
             if(optionIndex !== null){
                 await axios.get(`${url}/result/quiz/${optionIndex}`, {
                     headers: {

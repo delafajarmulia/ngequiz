@@ -12,14 +12,16 @@ const QuizResult = () => {
     const { url, token, geminiApiKey } = useAuth()
     let { quizId, resultId } = useParams()
     const [data, setData] = useState({})
+    const [score, setScore] = useState(0)
     const [questions, setQuestions] = useState([])
     const [answers, setAnswers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(0) // index soal aktif
     const [showModal, setShowModal] = useState(false); // state modal
     const [userQuestion, setUserQuestion] = useState(''); // state input pertanyaan user
+    const [isThinking, setIsThinking] = useState(false)
     const [messages, setMessages] = useState([
-        { sender: "ai", text: "Hi! I'm your assistant 👋" }
+        { sender: "ai", text: "Halo halo~ ada yang bisa aku jelasin? 📚" }
     ]); // state pesan chat bot
     const chatEndRef = useRef(null); // ref untuk scroll ke bawah
 
@@ -62,12 +64,28 @@ const QuizResult = () => {
                 }
             }).then((response) => {
                 setAnswers(response.data.payload.datas)
+                // console.log(response.data.payload.datas)
                 setIsLoading(false)
             }).catch((error) => {
                 console.log(error)
             })
         })()
     }, [])
+
+    useEffect(() => {
+        (async(e) => {
+            await axios.get(`${url}/result/${resultId}/score`, {
+                headers: {
+                    'Authorization': 'bearer ' + token
+                }
+            }).then((response) => {
+                setScore(response.data.payload.datas.score)
+            }).catch((error) => {
+                console.log(error)
+            })
+        })()
+    }, [])
+
     const sendMessage = async() => {
         if(userQuestion.trim() === '') return;
 
@@ -80,7 +98,7 @@ const QuizResult = () => {
     }
 
     const keywordChecker = (text) => {
-        const keywords = ['tolong', 'bantu', 'jelaskan', 'terangkan', 'contoh', 'menurutmu', 'kasih']
+        const keywords = ['tolong', 'bantu', 'jelaskan', 'terangkan', 'contoh', 'menurutmu', 'kasih', 'siapa', 'apa', 'mengapa', 'bagaimana', 'kenapa', 'dimana', 'kapan', 'jelas', 'terang', 'beri', 'berikan', 'paham']
 
         const containKeyword = keywords.some(key => 
             text.toLowerCase().includes(key)
@@ -91,6 +109,8 @@ const QuizResult = () => {
 
     const AIReply = async(userQuestion) => {
         try {
+            setIsThinking(true)
+
             let thisQuestion = questions[currentPage]?.question
             let responseAI;
 
@@ -116,6 +136,8 @@ const QuizResult = () => {
             ])
         } catch (error) {
             console.log(error)
+        } finally {
+            setIsThinking(false)
         }
     }
 
@@ -130,6 +152,7 @@ const QuizResult = () => {
                 <h1 className="text-center text-primary font-medium text-xl">{data.title}</h1>
                 <p className="mt-3">{data.description ?? null}</p>
                 <p className="">Jumlah soal: {questions.length} soal</p>
+                <p className="">Skor kamu: {score}</p>
                 
                 {
                     !isLoading && questions.length > 0 && (
@@ -210,6 +233,15 @@ const QuizResult = () => {
                                     </div>
                                 </div>
                             ))}
+
+                            {/* AI berpikir */}
+                            {isThinking && (
+                                <div className="flex">
+                                    <div className="px-4 py-2 rounded-2xl max-w-xs text-sm bg-gray-200 text-gray-800">
+                                        <span className="typing-dots">Bentar ya, aku lagi mikir 💭</span>
+                                    </div>
+                                </div>
+                            )}
                             <div ref={chatEndRef}/>
                         </div>
 
@@ -217,7 +249,7 @@ const QuizResult = () => {
                         <div className="p-2 border-t border-border flex gap-2">
                             <input
                                 type="text"
-                                placeholder="Type a message..."
+                                placeholder="Ada pertanyaan?"
                                 className="flex-1 border-border rounded-lg px-3 py-2 text-sm focus:outline-none"
                                 value={userQuestion}
                                 onChange={(e) => setUserQuestion(e.target.value)}

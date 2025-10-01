@@ -3,11 +3,14 @@ import { ContentLayout } from "../../components/ContentLayout"
 import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 import { Link } from "react-router-dom"
+import { formatDate } from "../../helper/format-date"
 
 const QuizDone = () => {
     const { url, token } = useAuth()
     const [myResults, setMyResults] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+
+    // const submittedDate = formatDate(, true)
 
     useEffect(() => {
         (async(e) => {
@@ -19,6 +22,7 @@ const QuizDone = () => {
                 setIsLoading(false)
                 const datas = response.data.payload.datas
                 setMyResults(datas)
+                console.log(datas)
             }).catch((error) => {
                 setIsLoading(false)
                 const errorCode = error.response.status
@@ -32,7 +36,7 @@ const QuizDone = () => {
 
     return(
         <ContentLayout>
-            <h1 className="text-center mt-3 text-black text-xl font-medium">Riwayat Quiz-ku</h1>
+            <h1 className="text-center mt-3 text-black text-xl font-medium">Riwayat Quiz</h1>
             <div className="mt-5 mb-16">
                 {
                     isLoading ? 
@@ -62,14 +66,7 @@ const QuizDone = () => {
                                     >
                                             <p className="font-medium">{myResult.quiz.title}</p>
                                             <p className="text-sm">Score: {myResult.score}</p>
-                                            {/* <p>{myResult.id}</p> */}
-                                            {/* <p className="text-sm">Waktu Penyelesaian: {myResult.submitted_at}</p> */}
-                                            {/* <Link
-                                                to={`/quiz-result/${myResult.quiz_id}`}
-                                                className="text-xs font-semibold text-primary mt-3"
-                                            >
-                                                Lihat jawaban
-                                            </Link> */}
+                                            <p className="text-sm">Waktu Pengerjaan: {myResult.submitted_at}</p>
                                             <p
                                                 className="text-xs font-semibold text-primary mt-3"
                                             >

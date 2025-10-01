@@ -17,7 +17,6 @@ const PlayQuiz = () => {
     const resultId = parseInt(localStorage.getItem('result-id'))
 
     quizId = parseInt(quizId)
-    // console.log(quizId)
 
     useEffect(() => {
         (async(e) => {
@@ -29,6 +28,7 @@ const PlayQuiz = () => {
                 const result = response.data.payload.datas
                 setQuizName(result.title)
                 setQuestions(result.questions)
+                console.log(result)
             }).catch(error => {
                 const errorCode = error.response.status
                     
@@ -76,11 +76,12 @@ const PlayQuiz = () => {
             setIsSubmitting(false);
 
             if(nextIndex >= questions.length){
+                const score = response.data.payload.datas.score
+                navigate('/success', {state: { score, quizId, resultId }}); 
+                
                 localStorage.removeItem('quiz-playing-id')
                 localStorage.removeItem('result-id')
-
-                const score = response.data.payload.datas.score
-                return navigate('/success', {state: { score }}); 
+                return
             }
         } catch (error) {
             console.log(error);
@@ -96,8 +97,8 @@ const PlayQuiz = () => {
                     <h1 className="text-xl">
                         {quizName}
                     </h1>
-                    <div className="border-border border-2 py-1 px-3 rounded-[50%]">
-                        {currentQuestionIndex + 1}
+                    <div>
+                        {currentQuestionIndex + 1} / {questions.length}
                     </div>
                 </div>
                 {

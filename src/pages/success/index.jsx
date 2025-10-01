@@ -1,36 +1,40 @@
-import { useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
-const Success = () => {
+const Success = (props) => {
     const navigate = useNavigate()
     const location = useLocation()
     const score = location.state?.score
+    const resultId = parseInt(location.state?.resultId)
+    const quizId = parseInt(location.state?.quizId)
 
-    const back = () => {
-        return navigate('/dashboard')
+    const goToResult = () => {
+        return navigate(`/quiz/${quizId}/result/${resultId}`)
     }
 
     return(
-        <div className="w-full h-screen flex flex-col justify-center items-center">
-            <div className="w-full lg:w-1/3 flex flex-col justify-center items-center">
-                <div>
-                    <h1 className="text-7xl">🥳</h1> 
-                </div>
-                <div className="text-center text-black font-bold text-xl my-3">
-                    <h1>Yeay, kamu udah selesai!</h1>
-                    <p className="pt-1 font-medium text-base">Score kamu: {score}</p> 
-                </div>
-                <div className="text-center">
-                    <p>Terima kasih udah ngerjain kuisnya.</p>
-                    <p>Semoga seru dan menambah pengetahuan.</p>
-                    <p>Sampai jumpa dikuis berikutnya!</p>
-                </div>
-                <div className="mt-5">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-white px-4">
+            <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-md">
+                <div className="text-6xl mb-4 animate-bounce">🥳</div>
+                <h1 className="text-2xl font-bold text-blue-600">Yeay, kamu udah selesai!</h1>
+                <p className="text-lg font-semibold text-gray-700 mt-2">Score kamu: <span className="text-green-600">{score}</span></p>
+                
+                <p className="text-gray-500 mt-4 leading-relaxed">
+                    Terima kasih udah ngerjain kuisnya.<br />
+                    Semoga seru dan menambah pengetahuan.<br />
+                    Sampai jumpa di kuis berikutnya!
+                </p>
+
+                <div className="mt-6 flex flex-col space-y-3">
                     <button 
-                        onClick={() => back()}
-                        className="text-white bg-primary font-semibold rounded-md py-2.5 px-7 hover:cursor-pointer"
-                    >
-                        Kembali
+                        className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-600 font-semibold cursor-pointer"
+                        onClick={goToResult}>
+                        Lihat Hasil
                     </button>
+                    <Link
+                        to="/dashboard"
+                        className="text-gray-500 hover:text-gray-700">
+                        Kembali
+                    </Link>
                 </div>
             </div>
         </div>

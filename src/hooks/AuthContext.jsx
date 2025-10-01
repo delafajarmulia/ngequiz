@@ -8,8 +8,8 @@ export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children, isProtected = false }) => {
-  // const url = "http://localhost:2007/api/v1";
-  const url = import.meta.env.VITE_API_URL
+  const url = "http://localhost:2007/api/v1";
+  // const url = import.meta.env.VITE_API_URL
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
   const [isResponseError, setIsResponseError] = useState('')
