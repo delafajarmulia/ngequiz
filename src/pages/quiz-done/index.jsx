@@ -22,7 +22,6 @@ const QuizDone = () => {
                 setIsLoading(false)
                 const datas = response.data.payload.datas
                 setMyResults(datas)
-                console.log(datas)
             }).catch((error) => {
                 setIsLoading(false)
                 const errorCode = error.response.status

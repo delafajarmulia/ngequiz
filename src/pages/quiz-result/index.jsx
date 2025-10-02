@@ -253,6 +253,7 @@ const QuizResult = () => {
                                 className="flex-1 border-border rounded-lg px-3 py-2 text-sm focus:outline-none"
                                 value={userQuestion}
                                 onChange={(e) => setUserQuestion(e.target.value)}
+                                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                             />
                             <button 
                                 className="bg-primary text-white px-3 py-2 rounded-lg text-sm cursor-pointer"
