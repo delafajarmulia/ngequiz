@@ -4,6 +4,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import axios from "axios"
 import Navbar from "../../components/Navbar"
 import { unAuthUser } from "../../libs/redirect"
+import { motion, AnimatePresence } from "framer-motion";
 
 // Total skor final yang disepakati
 const MAX_QUIZ_SCORE = 100; 
@@ -158,53 +159,66 @@ const PlayQuiz = () => {
           
 
             {/* alert */}
-            {showAlert && ( 
+            {showAlert && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/20"></div>
 
-                <div className={`relative flex flex-col items-center gap-3 
-                                    transform transition-all duration-300 ease-out scale-95 animate-fade-in`}>
-                
-                {/* Icon Grafik */}
-                {isCorrect ? (
+                <AnimatePresence>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ 
+                    opacity: 1, 
+                    scale: 1,
+                    y: [0, -10, 0, -6, 0], // tuing tuing
+                    }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ 
+                    duration: 0.8, 
+                    ease: "easeInOut",
+                    repeat: Infinity, // biar loop terus
+                    repeatDelay: 0.5
+                    }}
+                    className="relative flex flex-col items-center gap-3"
+                >
+                    {/* Icon Grafik */}
+                    {isCorrect ? (
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" 
                         fill="none" stroke="#22c55e" strokeWidth="6" 
                         strokeLinecap="round" strokeLinejoin="round"
                         className="w-24 h-24">
-                    <polyline points="4,44 20,28 36,36 60,12" />
-                    <polyline points="44,12 60,12 60,28" />
+                        <polyline points="4,44 20,28 36,36 60,12" />
+                        <polyline points="44,12 60,12 60,28" />
                     </svg>
-                ) : (
+                    ) : (
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" 
                         fill="none" stroke="#ef4444" strokeWidth="6" 
                         strokeLinecap="round" strokeLinejoin="round"
                         className="w-24 h-24">
-                    <polyline points="4,20 20,36 36,28 60,52" />
-                    <polyline points="44,52 60,52 60,36" />
+                        <polyline points="4,20 20,36 36,28 60,52" />
+                        <polyline points="44,52 60,52 60,36" />
                     </svg>
-                )}
+                    )}
 
-                {/* Detail poin yang baru saja didapat */}
-                {isCorrect ? (
+                    {/* Detail poin yang baru saja didapat */}
+                    {isCorrect ? (
                     <p className="text-green-600 font-semibold text-lg">
-                    +{lastEarnedPoints.toFixed(2)} Point
+                        +{lastEarnedPoints.toFixed(2)} Point
                     </p>
-                ) : (
+                    ) : (
                     <p className="text-red-500 font-medium text-lg">
-                    0 Point
+                        0 Point
                     </p>
-                )}
-                
-                {/* Tampilkan total skor sementara (dibulatkan 2 angka di belakang koma) */}
-                <p className="text-gray-500 font-medium text-sm mt-1">
+                    )}
+                    
+                    {/* Tampilkan total skor sementara */}
+                    <p className="text-gray-500 font-medium text-sm mt-1">
                     Total Skor: {currentScore.toFixed(2)}
-                </p>
-
-                </div>
+                    </p>
+                </motion.div>
+                </AnimatePresence>
             </div>
             )}
-
 
                 <div className="w-full flex place-content-between text-black font-semibold">
                     <h1 className="text-xl">
