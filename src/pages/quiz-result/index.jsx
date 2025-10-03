@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import { ContentLayout } from "../../components/ContentLayout"
-import { FiMessageCircle } from "react-icons/fi"
+import { FiMessageCircle, FiArrowLeft, FiArrowRight  } from "react-icons/fi"
 import { GoogleGenAI } from "@google/genai"
 import ReactMarkdown from "react-markdown"
 
@@ -24,6 +24,7 @@ const QuizResult = () => {
         { sender: "ai", text: "Halo halo~ ada yang bisa aku jelasin? 📚" }
     ]); // state pesan chat bot
     const chatEndRef = useRef(null); // ref untuk scroll ke bawah
+    const [myResults, setMyResults] = useState([])
 
     const ai = new GoogleGenAI({ apiKey: geminiApiKey })
     
@@ -80,6 +81,8 @@ const QuizResult = () => {
                 }
             }).then((response) => {
                 setScore(response.data.payload.datas.score)
+                setMyResults(response.data.payload.datas) 
+                console.log(response.data.payload.datas)
             }).catch((error) => {
                 console.log(error)
             })
@@ -150,9 +153,28 @@ const QuizResult = () => {
         <ContentLayout>
             <div className="mt-2 mb-16 ">
                 <h1 className="text-center text-primary font-medium text-xl">{data.title}</h1>
-                <p className="mt-3">{data.description ?? null}</p>
-                <p className="">Jumlah soal: {questions.length} soal</p>
-                <p className="">Skor kamu: {score}</p>
+                {/* <p className="mt-3">{data.description ?? null}</p> */}
+                <div className="flex">
+                {/* <p className="flex-1">Jumlah soal: {questions.length} soal</p>
+                 */}
+                 <div>
+                        Soal: {currentPage + 1} / {questions.length}
+                    </div>
+                <div className="flex-1 flex justify-center items-center text-sm text-gray-500">
+                <p className="text-gray-400 mr-1" size={14}/>
+                {" "}
+                {/* Pastikan myResults tidak kosong sebelum mengakses submitted_at */}
+                {myResults.length > 0 && new Date(myResults[0].submitted_at).toLocaleString("id-ID", {
+                    dateStyle: "long",
+                    timeStyle: "short",
+                })}
+            </div>
+                <p className="text-right font-semibold text-lg text-blue-600">
+                    Skor: {score}
+                </p>
+                </div>
+
+
                 
                 {
                     !isLoading && questions.length > 0 && (
@@ -183,25 +205,38 @@ const QuizResult = () => {
                             </div>
 
                             {/* tombol navigasi */}
-                            <div className="flex justify-between mt-4">
-                                <button 
-                                    disabled={currentPage === 0} 
-                                    onClick={() => setCurrentPage(prev => prev - 1)}
-                                    className={`px-4 py-2 rounded 
-                                        ${currentPage === 0 ? 'text-gray-400 cursor-not-allowed' : 'cursor-pointer bg-blue-400'}`
-                                    }
-                                >
-                                    Sebelumnya
-                                </button>
-                                <button 
-                                    disabled={currentPage === questions.length - 1} 
-                                    onClick={() => setCurrentPage(prev => prev + 1)}
-                                    className="cursor-pointer"
-                                >
-                                    Selanjutnya
-                                </button>
-                            </div>
-                        </div>
+                            <div className="flex justify-between mt-8">
+                    {/* Tombol Sebelumnya */}
+                    <button
+                        disabled={currentPage === 0}
+                        onClick={() => setCurrentPage(prev => prev - 1)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium border transition 
+                        ${
+                            currentPage === 0
+                            ? "border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed"
+                            : "border-blue-400 text-blue-500 bg-white hover:bg-blue-50 cursor-pointer"
+                        }`}
+                    >
+                        <FiArrowLeft size={18} />
+                        Sebelumnya
+                    </button>
+
+                    {/* Tombol Selanjutnya */}
+                    <button
+                        disabled={currentPage === questions.length - 1}
+                        onClick={() => setCurrentPage(prev => prev + 1)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium border transition 
+                        ${
+                            currentPage === questions.length - 1
+                            ? "border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed"
+                            : "border-blue-400 text-blue-500 bg-white hover:bg-blue-50 cursor-pointer"
+                        }`}
+                    >
+                        Selanjutnya
+                        <FiArrowRight size={18} />
+                    </button>
+                    </div>
+                    </div>
                     )
                 }
 

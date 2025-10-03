@@ -7,6 +7,7 @@ import testi3 from "../../assets/testi3.jpg";
 import fitur1 from "../../assets/fitur1.png";
 import fitur2 from "../../assets/fitur2.png";
 import fitur3 from "../../assets/fitur3.png";
+import { MdOutlineMoreTime } from "react-icons/md";
 
 const Landing = () => {
     const navigate = useNavigate();
@@ -304,9 +305,7 @@ const Landing = () => {
                         {/* Akses Fleksibel */}
                         <div className="bg-white rounded-2xl shadow-md p-8 hover:shadow-lg transition">
                             <div className="flex justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                </svg>
+                                <MdOutlineMoreTime className="text-purple-500" size={40} />
                             </div>
                             <h2 className="text-xl font-semibold text-primary">Bisa Kapan Saja</h2>
                             <p className="text-gray-500 mt-2">
@@ -316,9 +315,9 @@ const Landing = () => {
                         {/* Dukungan AI */}
                         <div className="bg-white rounded-2xl shadow-md p-8 hover:shadow-lg transition relative overflow-hidden">
                             {/* Label Coming Soon */}
-                            <span className="absolute top-2 right-[-40px] bg-yellow-400 text-white text-xs font-bold px-16 py-1 my-5 rotate-45 shadow">
+                            {/* <span className="absolute top-2 right-[-40px] bg-yellow-400 text-white text-xs font-bold px-16 py-1 my-5 rotate-45 shadow">
                                 Coming Soon
-                            </span>
+                            </span> */}
 
                             <div className="flex justify-center mb-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
