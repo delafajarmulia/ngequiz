@@ -151,8 +151,12 @@ const QuizResult = () => {
             <div className="mt-2 mb-16 ">
                 <h1 className="text-center text-primary font-medium text-xl">{data.title}</h1>
                 <p className="mt-3">{data.description ?? null}</p>
-                <p className="">Jumlah soal: {questions.length} soal</p>
-                <p className="">Skor kamu: {score}</p>
+                <div>
+                    <p className="">{currentPage + 1} / {questions.length}</p>
+                    <p className="">
+                        {score}
+                    </p>
+                </div>
                 
                 {
                     !isLoading && questions.length > 0 && (
