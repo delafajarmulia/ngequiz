@@ -9,3 +9,9 @@
     --color-white: #ffffff;
     --color-border: #D9D9D9;
 }
+
+.hyphenate {
+  overflow-wrap: break-word;  /* kata panjang boleh patah */
+  word-break: break-word;     /* supaya URL dsb. bisa pecah */
+  hyphens: auto;              /* otomatis kasih "-" kalau kepotong */
+}

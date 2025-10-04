@@ -153,16 +153,12 @@ const QuizResult = () => {
         <ContentLayout>
             <div className="mt-2 mb-16 ">
                 <h1 className="text-center text-primary font-medium text-xl">{data.title}</h1>
-                {/* <p className="mt-3">{data.description ?? null}</p> */}
                 <div className="flex">
-                {/* <p className="flex-1">Jumlah soal: {questions.length} soal</p>
-                 */}
                  <div>
                         Soal: {currentPage + 1} / {questions.length}
                     </div>
                 <div className="flex-1 flex justify-center items-center text-sm text-gray-500">
                 <p className="text-gray-400 mr-1" size={14}/>
-                {" "}
                 {/* Pastikan myResults tidak kosong sebelum mengakses submitted_at */}
                 {myResults.length > 0 && new Date(myResults[0].submitted_at).toLocaleString("id-ID", {
                     dateStyle: "long",
@@ -256,8 +252,8 @@ const QuizResult = () => {
                                     className={`flex ${msg.sender === 'user' ? 'justify-end': ''}`}
                                 >
                                     <div
-                                        className={`px-4 py-2 rounded-2xl max-w-xs text-sm ${
-                                            msg.sender === 'user'
+                                        className={`px-4 py-2 rounded-2xl max-w-xs text-sm overflow-hidden whitespace-pre-wrap hyphenate
+                                        ${msg.sender === 'user'
                                             ? 'bg-blue-500 text-white'
                                             : 'bg-gray-200 text-gray-800'
                                         }`}

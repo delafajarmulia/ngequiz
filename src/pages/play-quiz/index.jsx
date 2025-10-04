@@ -47,11 +47,7 @@ const PlayQuiz = () => {
                     // poin per soal: 100 / jumlah soal
                     const calculatedPoints = MAX_QUIZ_SCORE / loadedQuestions.length;
                     setPointsPerQuestion(calculatedPoints);
-                    // console.log(`Poin per soal dihitung: 100 / ${loadedQuestions.length} = ${calculatedPoints}`);
                 }
-                // ----------------------------------------
-                
-                // console.log("Data Quiz Loaded:", result) 
             }).catch(error => {
                 const errorCode = error.response.status
                     
@@ -107,17 +103,9 @@ const PlayQuiz = () => {
                 
                 // Gunakan toFixed(2) untuk membulatkan skor akhir di frontend
                 setCurrentScore(prevScore => prevScore + pointsGained);
-
-                // LOG untuk debugging
-                // console.log(`Jawaban Benar! Poin didapat: ${pointsGained}. Skor Baru: ${currentScore + pointsGained}`);
-            } else {
-                 // LOG untuk debugging
-                // console.log(`Jawaban Salah. Poin didapat: 0. Skor Tetap: ${currentScore}`);
-            }
+            } 
             // Simpan poin yang didapat untuk ditampilkan di alert
             setLastEarnedPoints(pointsGained);
-            // -----------------------------------------------------
-
 
             const showCustomAlert = (correct) => {
                 setIsCorrect(correct);
@@ -264,8 +252,8 @@ const PlayQuiz = () => {
 
                 <div className="fixed bottom-0 left-0 w-full bg-white py-3 border-t border-gray-200 flex justify-center">
                     <button
-                        className={`text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md transition duration-200 ${
-                                isSubmitting || !selectedAnswer ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'
+                        className={`text-white bg-primary w-full mx-3 lg:w-1/3 py-2 rounded-md transition duration-200 cursor-pointer ${
+                                isSubmitting || !selectedAnswer ? 'opacity-50 cursor-not-allowed' : 'hover:opcacity-85'
                             }`}
                         onClick={submitAnswer}
                         disabled={isSubmitting || selectedAnswer === null}
