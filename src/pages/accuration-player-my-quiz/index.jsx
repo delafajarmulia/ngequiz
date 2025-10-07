@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { ContentLayout } from "../../components/ContentLayout"
-import { FiArrowLeft, FiArrowRight  } from "react-icons/fi"
+// import { FiArrowLeft, FiArrowRight } from "react-icons/fi" // Dihapus karena navigasi tidak diperlukan
 import { unAuthUser } from "../../libs/redirect"
 
 const AccurationPlayerMyQuiz = () => {
@@ -15,30 +15,31 @@ const AccurationPlayerMyQuiz = () => {
     const [questions, setQuestions] = useState([])
     const [answers, setAnswers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const [currentPage, setCurrentPage] = useState(0) // index soal aktif
-    const [myResults, setMyResults] = useState([])
+    // const [currentPage, setCurrentPage] = useState(0) 
+    const [myResults, setMyResults] = useState(null) // Ubah menjadi null
     
     quizId = parseInt(quizId)
     resultId = parseInt(resultId)
 
     useEffect(() => {
-        (async(e) => {
+        (async() => {
             await axios.get(`${url}/user/me`, {
                 headers: {
                     "Authorization": 'bearer ' + token
                 }
-            }).then((response) => {
-                return
+            }).then(() => {
+                // return
             }). catch((error) => {
-                const errorCode = error.response.status
+                const errorCode = error.response?.status 
 
                 if(errorCode === 401) return unAuthUser(navigate)
             })
         })()
-    }, [])
+    }, [navigate, token, url])
     
+    // ambil Data Kuis
     useEffect(() => {
-        (async(e) => {
+        (async() => {
             await axios.get(`${url}/quiz/${quizId}`, {
                 headers: {
                     'Authorization': 'bearer ' + token
@@ -51,143 +52,133 @@ const AccurationPlayerMyQuiz = () => {
                     description: result.description ?? null
                 })
                 setQuestions(result.questions)
+                // console.log("QUESTIONS:", result.questions)
             }).catch((error) => {
-                const errorCode = error.response.status
+                const errorCode = error.response?.status
                 
                 if(errorCode === 401){
                     unAuthUser(navigate)
                 }
-                
-                console.log(error)
+                console.error(error)
             })
         })()
-    }, [])
+    }, [navigate, quizId, token, url])
     
+    // Jawaban User
     useEffect(() => {
-        (async(e) => {
+        (async() => {
             await axios.get(`${url}/answer/result/${resultId}`, {
                 headers: {
                     'Authorization': 'bearer ' + token
                 }
             }).then((response) => {
-                setAnswers(response.data.payload.datas)
-                // console.log(response.data.payload.datas)
-                setIsLoading(false)
+                setAnswers(response.data.payload.datas) 
+                // console.log("ANSWERS:", response.data.payload.datas)
+                // setIsLoading(false) 
             }).catch((error) => {
-                console.log(error)
+                console.error(error)
             })
         })()
-    }, [])
+    }, [resultId, token, url])
     
+    // Skor dan Hasil
     useEffect(() => {
-        (async(e) => {
+        (async() => {
             await axios.get(`${url}/result/${resultId}/score?include=user`, {
                 headers: {
                     'Authorization': 'bearer ' + token
                 }
             }).then((response) => {
                 setScore(response.data.payload.datas.score)
-                console.log(response.data.payload.datas)
                 setMyResults(response.data.payload.datas) 
+                setIsLoading(false) 
             }).catch((error) => {
-                console.log(error)
+                console.error(error)
+                setIsLoading(false)
             })
         })()
-    }, [])
+    }, [resultId, token, url])
+
+    // jawaban user berdasarkan ID Pertanyaan
+    const getUserAnswer = (questionId) => {
+        return answers.find(ans => ans.choice?.question_id === questionId);
+    };
+
 
     return(
         <ContentLayout>
             <div className="mt-2 mb-16 ">
                 <h1 className="text-center text-primary font-medium text-xl">{data.title}</h1>
-                <div className="flex">
+                
+                <div className="flex items-start justify-between p-2 mb-4 border-b border-gray-200">
                     <div>
-                        Soal: {currentPage + 1} / {questions.length}
+                        <p>Jumlah Soal: {questions.length}</p>
+                        <p className="text-gray-400 text-sm italic">
+                            {myResults?.submitted_at && new Date(myResults.submitted_at).toLocaleString("id-ID", {
+                                dateStyle: "long",
+                                timeStyle: "short",
+                            })}
+                        </p>
                     </div>
-                <div className="flex-1 flex justify-center items-center text-sm text-gray-500">
-                    <p className="text-gray-400 mr-1" size={14}/>
-                    {/* Pastikan myResults tidak kosong sebelum mengakses submitted_at */}
-                    {myResults.length > 0 && new Date(myResults[0].submitted_at).toLocaleString("id-ID", {
-                        dateStyle: "long",
-                        timeStyle: "short",
-                    })}
+                    <div className="flex flex-col items-end">
+                        <p className="text-blue-600 font-bold text-l">
+                            Skor: {score}
+                        </p>
+                        <p className="text-gray-700 text-sm italic">
+                            Oleh: {myResults?.user?.name}
+                        </p>
+                    </div>
                 </div>
-                <div className="flex flex-col items-end gap-1 p-4 ">
-                <p className="text-blue-600 font-semibold text-lg">
-                    Skor: {score}
-                </p>
-                <p className="text-gray-700 text-sm italic">
-                    {myResults.user?.name}
-                </p>
-                </div>
-
-            </div>
                 
                 {
-                    !isLoading && questions.length > 0 && (
-                        <div className="mt-4">
-                        {/* soal */}
-                            <div className="w-full border-2 border-border rounded-lg px-5 py-3 pb-6.5 my-3">
-                                <p>{questions[currentPage].question}</p>
+                    isLoading ? 
+                        <p className="text-center mt-10">Memuat hasil kuis...</p>
+                    :
+                    questions.length === 0 ?
+                        <p className="text-center mt-10">Tidak ada pertanyaan ditemukan.</p>
+                    :
+                    questions.map((ques, idx) => {
+                        const userAnswer = getUserAnswer(ques.id); 
+
+                        return (
+                            <div 
+                                key={ques.id}
+                                className="w-full border-2 border-border rounded-lg px-5 py-3 pb-6.5 my-5 shadow-sm"
+                            >
+                                <p className=" mb-3">
+                                    {idx + 1}. {ques.question}
+                                </p>
                                 
-                                {questions[currentPage].choices.map(choice => {
-                                    const answer = answers.find(ans => ans.choice.question.id === questions[currentPage].id)
-                                    const isUserAnswer = choice.id === answer?.choice_id;
-                                    const isActuallyCorrect = choice.is_correct;
+                                {
+                                    ques.choices.map((choice) => {
+                                        const isUserAnswer = choice.id === userAnswer?.choice_id;
+                                        const isActuallyCorrect = choice.is_correct;
 
-                                    return (
-                                        <div 
-                                            key={choice.id} 
-                                            className={`w-full border-2 rounded-lg px-3 py-2 my-2 ${
-                                                isUserAnswer && isActuallyCorrect ? 'bg-green-200 border-green-300'
-                                                : isUserAnswer && !isActuallyCorrect ? 'bg-red-200 border-red-300'
-                                                : !isUserAnswer && isActuallyCorrect ? 'bg-green-200 border-green-300'
-                                                : 'bg-white border-border'
-                                            }`}
-                                        >
-                                            {choice.choice}
-                                        </div>
-                                    )
-                                })}
+                                        let className = 'bg-white border-border';
+                                        if (isUserAnswer && isActuallyCorrect) {
+                                            className = 'bg-green-100 border-green-200 '; // Jawaban Benar
+                                        } else if (isUserAnswer && !isActuallyCorrect) {
+                                            className = 'bg-red-100 border-red-200 '; // Jawaban Salah
+                                        } else if (isActuallyCorrect) {
+                                            className = 'bg-green-50 border-green-200'; // Jawaban Benar (tidak dipilih user)
+                                        }
+
+                                        return (
+                                            <div 
+                                                key={choice.id} 
+                                                className={`w-full border-2 rounded-lg px-3 py-2 my-2 transition ${className}`}
+                                            >
+                                                {choice.choice}
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
-
-                            {/* tombol navigasi */}
-                            {/* <div className="flex justify-between mt-8"> */}
-                                {/* Tombol Sebelumnya */}
-                                {/* <button
-                                    disabled={currentPage === 0}
-                                    onClick={() => setCurrentPage(prev => prev - 1)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium border transition 
-                                    ${
-                                        currentPage === 0
-                                        ? "border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed"
-                                        : "border-blue-400 text-blue-500 bg-white hover:bg-blue-50 cursor-pointer"
-                                    }`}
-                                >
-                                    <FiArrowLeft size={18} />
-                                    Sebelumnya
-                                </button> */}
-            
-                                {/* Tombol Selanjutnya */}
-                                {/* <button
-                                    disabled={currentPage === questions.length - 1}
-                                    onClick={() => setCurrentPage(prev => prev + 1)}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium border transition 
-                                    ${
-                                        currentPage === questions.length - 1
-                                        ? "border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed"
-                                        : "border-blue-400 text-blue-500 bg-white hover:bg-blue-50 cursor-pointer"
-                                    }`}
-                                >
-                                    Selanjutnya
-                                    <FiArrowRight size={18} />
-                                </button>
-                            </div> */}
-                        </div>
                         )
-                    }
-                    
-                </div>
-            </ContentLayout>
+                    })
+                }
+            </div>
+        </ContentLayout>
     )
 }
 
