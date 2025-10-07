@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { unAuthUser } from "../../libs/redirect";
-import { FiUser, FiSearch } from "react-icons/fi";
+import { FiUser, FiSearch,FiShare2, FiClock } from "react-icons/fi";
+import { LuLockKeyhole } from "react-icons/lu";
 
 
 const Dashboard = () => {
-    const {url, token, name} = useAuth()
+    const { url, token } = useAuth()
     const navigate = useNavigate()
     const [user, setUser] = useState({})
     const [quizzes, setQuizzes] = useState([])
@@ -65,6 +66,11 @@ const Dashboard = () => {
         })
     }
 
+    const shareLink = (quizId) => {
+        navigator.clipboard.writeText(`https://ngequiz.netlify.app/play-quiz/${quizId}/question/`);
+        alert("Link quiz telah disalin ke clipboard!");
+    }
+
     const filteredQuizzes = quizzes.filter(q =>
         q.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         q.creator.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -83,7 +89,7 @@ const Dashboard = () => {
                     placeholder="Cari quiz..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full pl-10 pr-3 py-2 border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
             </div>
             <div className="mt-5 mb-16">
@@ -96,13 +102,41 @@ const Dashboard = () => {
                                 <div 
                                     key={quiz.id} 
                                     onClick={() => playQuiz(quiz.id)}
-                                    className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85"
+                                    className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85 flex justify-between"
                                 >
-                                    <h2 className="text-lg">{quiz.title}</h2>
-                                    <div className="flex items-center gap-1 text-xs text-gray-200">
-                                        <FiUser className="text-white" size={14} />
-                                        <span>{quiz.creator.name}</span>
+                                    <div>
+                                        <h2 className="text-lg">{quiz.title}</h2>
+                                        <div className="flex items-center gap-2 text-xs text-white">
+                                            <FiUser className="text-white" size={14} />
+                                            <span>{quiz.creator.name}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-xs text-white">
+                                            <FiClock className="text-white" size={14} />
+                                            <span>
+                                                {new Date(quiz.created_at).toLocaleString("id-ID", {
+                                                    dateStyle: "long",
+                                                    timeStyle: "short"
+                                                })}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-xs text-white">
+                                            <LuLockKeyhole className="text-white" size={14} />
+                                            <span>
+                                                {/* 1x Percobaan &infin; */}
+                                                {quiz.is_once ? '1x Percobaan' : '∞ Percobaan'}
+                                            </span>
+                                        </div>
+
                                     </div>
+                                    <button
+                                        className="ml-auto flex justify-between items-center gap-1 px-2 py-1 text-white font-medium rounded-md text-sm hover:cursor-pointer"
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // biar gak trigger onClick parent
+                                            shareLink(quiz.id);
+                                        }}
+                                    >
+                                        <FiShare2 size={24} />
+                                    </button>
                                 </div>
                             ))
                         ) : (

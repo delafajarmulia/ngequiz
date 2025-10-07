@@ -11,8 +11,6 @@ const QuizDone = () => {
     const [myResults, setMyResults] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
-    // const submittedDate = formatDate(, true)
-
     useEffect(() => {
         (async(e) => {
             await axios.get(`${url}/result/me`, {
@@ -54,40 +52,38 @@ const QuizDone = () => {
                                     Ayo Coba!
                                 </Link>
                             </div>
-                            : 
+                        : 
                             myResults.map(myResult => (
-                                <Link
-                                    to={`/quiz/${myResult.quiz_id}/result/${myResult.id}`}
+                                <div 
                                     key={myResult.id}
+                                    className="w-full my-3 px-6 py-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-gray-300 transition"
                                 >
-                                    <div 
-                                        key={myResult.id}
-                                        className="w-full my-3 px-6 py-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md hover:border-gray-300 transition"
-                                    >
-                                         <div className="flex justify-between items-center">
-                                            <p className="font-semibold text-gray-800 text-base">
-                                                {myResult.quiz.title}
-                                            </p>
-                                            <p className="mt-1 text-sm">
-                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium
-                                                ${myResult.score >= 80 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                                                Score: {myResult.score}
-                                                </span>
-                                            </p>
-                                            </div>
-                                            <p className="flex items-center text-sm text-gray-500 mt-2">
-                                                <FiClock className="text-gray-400 mr-1" size={14} />
-                                                {" "}
-                                                {new Date(myResult.submitted_at).toLocaleString("id-ID", {
-                                                dateStyle: "long",
-                                                timeStyle: "short",
-                                                })}
-                                            </p>
-                                             <p className="text-sm font-semibold text-primary mt-3 hover:underline cursor-pointer">
-                                                Lihat jawaban →
-                                            </p>
+                                    <div className="flex justify-between items-center">
+                                        <p className="font-semibold text-gray-800 text-base">
+                                            {myResult.quiz.title}
+                                        </p>
+                                        <p className="mt-1 text-sm">
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium
+                                            ${myResult.score >= 80 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                                            Score: {myResult.score}
+                                            </span>
+                                        </p>
                                     </div>
-                                </Link>
+                                    <p className="flex items-center text-sm text-gray-500 mt-2">
+                                        <FiClock className="text-gray-400 mr-1" size={14} />
+                                        {" "}
+                                        {new Date(myResult.submitted_at).toLocaleString("id-ID", {
+                                            dateStyle: "long",
+                                            timeStyle: "short",
+                                        })}
+                                    </p>
+                                    <Link
+                                        to={`/quiz/${myResult.quiz_id}/result/${myResult.id}`}
+                                        className="text-sm font-semibold text-primary mt-3 hover:underline cursor-pointer"
+                                    >
+                                        Lihat jawaban →
+                                    </Link>
+                                </div>
                             ))
                 }
                 

@@ -65,7 +65,6 @@ const QuizResult = () => {
                 }
             }).then((response) => {
                 setAnswers(response.data.payload.datas)
-                // console.log(response.data.payload.datas)
                 setIsLoading(false)
             }).catch((error) => {
                 console.log(error)
@@ -82,7 +81,6 @@ const QuizResult = () => {
             }).then((response) => {
                 setScore(response.data.payload.datas.score)
                 setMyResults(response.data.payload.datas) 
-                console.log(response.data.payload.datas)
             }).catch((error) => {
                 console.log(error)
             })
@@ -101,7 +99,7 @@ const QuizResult = () => {
     }
 
     const keywordChecker = (text) => {
-        const keywords = ['tolong', 'bantu', 'jelaskan', 'terangkan', 'contoh', 'menurutmu', 'kasih', 'siapa', 'apa', 'mengapa', 'bagaimana', 'kenapa', 'dimana', 'kapan', 'jelas', 'terang', 'beri', 'berikan', 'paham']
+        const keywords = ['tolong', 'bantu', 'jelaskan', 'jelasin', 'terangkan', 'contoh', 'menurutmu', 'kasih', 'siapa', 'apa', 'mengapa', 'bagaimana', 'kenapa', 'dimana', 'kapan', 'jelas', 'terang', 'beri', 'berikan', 'paham', 'soal', 'materi']
 
         const containKeyword = keywords.some(key => 
             text.toLowerCase().includes(key)
@@ -169,8 +167,6 @@ const QuizResult = () => {
                     Skor: {score}
                 </p>
                 </div>
-
-
                 
                 {
                     !isLoading && questions.length > 0 && (
@@ -320,7 +316,6 @@ const QuizResult = () => {
                     <FiMessageCircle size={24} />
                 </button>
             </div>
-            
 
         </ContentLayout>
     )

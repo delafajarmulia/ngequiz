@@ -117,7 +117,7 @@ const Leaderboard = () => {
                         :
                             userPlays.map((player, idx) => (
                                 <div 
-                                    key={player.id}
+                                    key={idx}
                                     className="w-full grid grid-cols-6 gap-3 my-2 cursor-pointer text-black font-semibold"
                                 >
                                     <div className="border-2 border-primary rounded-lg p-3 text-center">

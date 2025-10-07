@@ -74,11 +74,6 @@ const QuizDetail = () => {
                 }
             </div>
         </ContentLayout>
-        // <div className="min-h-screen flex flex-col text-black">
-        //     <Navbar/>
-        //     <div className="w-full lg:w-1/3 mx-auto my-2 px-5 mt-18">
-        //     </div>
-        // </div>
     )
 }
 

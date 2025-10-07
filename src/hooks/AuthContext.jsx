@@ -13,7 +13,6 @@ export const AuthProvider = ({ children, isProtected = false }) => {
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true)
   const [isResponseError, setIsResponseError] = useState('')
-  // const [name, setName] = ('')
   const navigate = useNavigate();
   
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY
