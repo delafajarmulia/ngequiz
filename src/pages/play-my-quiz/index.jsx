@@ -4,7 +4,6 @@ import axios from "axios"
 import { useAuth } from "../../hooks/AuthContext"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { unAuthUser } from "../../libs/redirect"
-import { Link, useParams } from "react-router-dom"
 import { FiClock } from "react-icons/fi"
 
 const PlayMyQuiz = () => {
