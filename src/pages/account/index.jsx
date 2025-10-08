@@ -30,9 +30,9 @@ const Account = () => {
     }, [])
 
     const Logout = () => {
-        localStorage.removeItem('token')
-        setToken(null)
-        navigate('/login')
+      localStorage.removeItem('token')
+      setToken(null)
+      navigate('/login')
     }
 
     // Fungsi greeting sesuai waktu

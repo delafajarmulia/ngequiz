@@ -1,4 +1,9 @@
-export const unAuthUser = (navigate) => {
+export const unAuthUser = (navigate, message = "Ups, sesi kamu udah kedaluwarsa. Coba login ulang, yuk!") => {
     localStorage.removeItem('token')
-    return navigate('/', { replace : true })
+    return navigate('/login', { 
+        replace : true,
+        state: {
+            error: message
+        }
+    })
 }

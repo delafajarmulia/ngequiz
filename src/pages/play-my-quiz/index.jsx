@@ -2,11 +2,13 @@ import { useEffect, useState } from "react"
 import { ContentLayout } from "../../components/ContentLayout"
 import axios from "axios"
 import { useAuth } from "../../hooks/AuthContext"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { unAuthUser } from "../../libs/redirect"
 
 const PlayMyQuiz = () => {
     const { url, token } = useAuth()
     const { quizId } = useParams()
+    const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(true)
     const [played, setPlayed] = useState([])
 
@@ -23,7 +25,11 @@ const PlayMyQuiz = () => {
                 setPlayed(response.data.payload.datas)
                 setIsLoading(false)
             }).catch(err => {
-                console.log(err)
+                const errorCode = err.response.status
+                
+                if(errorCode === 401){
+                    unAuthUser(navigate)
+                }
             })
         })()
     }, [quizId])
