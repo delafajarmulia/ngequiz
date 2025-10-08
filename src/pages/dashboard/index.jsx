@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { unAuthUser } from "../../libs/redirect";
 import { FiUser, FiSearch,FiShare2, FiClock } from "react-icons/fi";
 import { LuLockKeyhole } from "react-icons/lu";
+import Swal from 'sweetalert2';
 
 
 const Dashboard = () => {
@@ -75,7 +76,21 @@ const Dashboard = () => {
 
     const shareLink = (quizId) => {
         navigator.clipboard.writeText(`${urlProduction}/play-quiz/${quizId}/question/`);
-        alert("Link quiz telah disalin ke clipboard!");
+        
+        Swal.fire({
+        toast: true, // alert pojok
+        position: 'top-end', // Posisi di kanan atas
+        icon: 'success', // Ikon sukses (centang hijau)
+        title: 'Link Berhasil Disalin!', // Judul notifikasi
+        text: 'Tautan kuis siap dibagikan.', // Teks di bawah judul
+        showConfirmButton: false, // Tidak perlu tombol OK
+        timer: 3000, // Notifikasi hilang setelah 3 detik
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
     }
 
     const filteredQuizzes = quizzes.filter(q =>
@@ -89,6 +104,7 @@ const Dashboard = () => {
 
             <TabLayout />
 
+            {/* Search Input */}
             <div className="relative my-4">
                 <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
@@ -99,56 +115,60 @@ const Dashboard = () => {
                     className="w-full pl-10 pr-3 py-2 border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
             </div>
-            <div className="mt-5 mb-16">
+
+            {/* Quiz List */}
+            <div className="mt-5 mb-16 space-y-3">
                 {
                     isLoading ? 
                         <p className="text-center">Mengambil Quiz...</p>
                     :
-                        filteredQuizzes.length > 0 ? (
-                            filteredQuizzes.map(quiz => (
-                                <div 
-                                    key={quiz.id} 
-                                    onClick={() => playQuiz(quiz.id)}
-                                    className="w-full bg-primary rounded-lg p-5 pb-6.5 text-white font-semibold my-2 cursor-pointer hover:opacity-85 flex justify-between"
-                                >
-                                    <div>
-                                        <h2 className="text-lg">{quiz.title}</h2>
-                                        <div className="flex items-center gap-2 text-xs text-white">
-                                            <FiUser className="text-white" size={14} />
-                                            <span>{quiz.creator.name}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-xs text-white">
-                                            <FiClock className="text-white" size={14} />
-                                            <span>
-                                                {new Date(quiz.created_at).toLocaleString("id-ID", {
-                                                    dateStyle: "long",
-                                                    timeStyle: "short"
-                                                })}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center gap-2 text-xs text-white">
-                                            <LuLockKeyhole className="text-white" size={14} />
-                                            <span>
-                                                {/* 1x Percobaan &infin; */}
-                                                {quiz.is_once ? '1x Percobaan' : '∞ Percobaan'}
-                                            </span>
-                                        </div>
-
+                    filteredQuizzes.length > 0 ? (
+                        filteredQuizzes.map(quiz => (
+                            <div 
+                                key={quiz.id} 
+                                className="w-full bg-primary rounded-xl p-4 text-white font-semibold cursor-pointer hover:opacity-90 transition flex justify-between items-start"
+                                onClick={() => playQuiz(quiz.id)}
+                            >
+                                <div className="flex flex-col flex-grow">
+                                    <h2 className="text-l font-bold mb-1">{quiz.title}</h2>
+                                    
+                                    <div className="flex items-center gap-2 text-sm">
+                                        <FiUser size={14} />
+                                        <span className="text-sm">{quiz.creator.name}</span>
                                     </div>
-                                    <button
-                                        className="ml-auto flex justify-between items-center gap-1 px-2 py-1 text-white font-medium rounded-md text-sm hover:cursor-pointer"
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // biar gak trigger onClick parent
-                                            shareLink(quiz.id);
-                                        }}
-                                    >
-                                        <FiShare2 size={24} />
-                                    </button>
+                                    
+                                    <div className="flex items-center gap-2 text-sm">
+                                        <FiClock size={14} />
+                                        <span>
+                                            {new Date(quiz.created_at).toLocaleString("id-ID", {
+                                                dateStyle: "long",
+                                                timeStyle: "short"
+                                            })}
+                                        </span>
+                                    </div>
+                                    
+                                    <div className="flex items-center gap-2 text-sm">
+                                        <LuLockKeyhole size={14} />
+                                        <span className="text-sm">
+                                            {quiz.is_once ? '1x Percobaan' : '∞ Percobaan'}
+                                        </span>
+                                    </div>
                                 </div>
-                            ))
-                        ) : (
-                            <p className="text-center text-gray-500">Quiz tidak ditemukan</p>
-                        )
+                                
+                                <button
+                                    className="p-1 text-white hover:opacity-80 transition flex-shrink-0 ml-4"
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Mencegah klik tombol share memicu playQuiz
+                                        shareLink(quiz.id);
+                                    }}
+                                >
+                                    <FiShare2 size={24} />
+                                </button>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500">Quiz tidak ditemukan</p>
+                    )
                 }
             </div>
         </ContentLayout>

@@ -126,26 +126,41 @@ const MyQuizSetting = () => {
                                         </svg>
                                     </div>
 
-                                    <div className="text-sm text-gray-600 mt-1">
-                                        <p>{quiz.description}</p>
-                                        <p>Jumlah soal: {quiz._count.questions}</p>
-                                    </div>
+                             <div className="flex flex-col space-y-4">
+                            {/* Detail Quiz: Deskripsi dan Jumlah Soal dalam Badge */}
+                            <div className="space-y-3">
+                                {/* Deskripsi */}
+                                <p className="text-sm text-gray-700 line-clamp-3">
+                                    {quiz.description}
+                                </p>
 
-                                    <div className="flex flex-col mt-3">
-                                        <Link
-                                            to={`/quiz-detail/${quiz.id}`}
-                                            className="text-sm font-semibold text-primary inline-block"
-                                        >
-                                            Lihat detail →
-                                        </Link>
-                                        <Link
-                                            to={`/play-my-quiz/${quiz.id}`}
-                                            className="text-sm font-semibold text-primary inline-block"
-                                        >
-                                            Who play my quiz?
-                                        </Link>
-                                    </div>
+                                {/* Badge/Chip untuk Jumlah Soal */}
+                                <div className="inline-flex items-center px-3 py-1 bg-blue-100 text-primary text-xs font-medium rounded-full">
+                                    {/* Ganti dengan ikon yang sesuai (misalnya buku/kertas) */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM6 10a1 1 0 000 2h8a1 1 0 100-2H6z" />
+                                    </svg>
+                                    <span>{quiz._count.questions} Soal</span>
                                 </div>
+                            </div>
+                            
+                            {/* Tombol Aksi: Menggunakan tombol yang jelas dan terpisah */}
+                            <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0 mt-3 pt-3 border-t border-gray-200">
+                                <Link
+                                    to={`/quiz-detail/${quiz.id}`}
+                                    className="flex-1 px-3 py-2 text-sm font-semibold text-primary border border-primary rounded-lg hover:bg-indigo-50 transition duration-150 text-center"
+                                >
+                                    Lihat Detail
+                                </Link>
+                                <Link
+                                    to={`/play-my-quiz/${quiz.id}`}
+                                    className="flex-1 px-3 py-2 text-sm font-semibold text-white bg-primary rounded-lg shadow-md hover:opacity 85 transition duration-150 text-center"
+                                >
+                                    Statistik Pemain
+                                </Link>
+                            </div>
+                        </div>
+                        </div>
 
                             ))
                 }
