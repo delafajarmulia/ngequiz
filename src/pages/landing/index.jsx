@@ -208,7 +208,7 @@ const Landing = () => {
                 {/* Denis */}
                 <motion.div
                 variants={fadeIn}
-                className="bg-white rounded-2xl shadow-lg p-6 relative md:col-span-1"
+                className="bg-white rounded-2xl shadow-lg p-6 relative md:col-span-1 flex flex-col justify-between"
                 >
                 <span className="absolute top-2 left-4 text-6xl text-gray-200">“</span>
                 <p className="text-gray-600 relative z-10 mt-6">
@@ -232,7 +232,7 @@ const Landing = () => {
                 {/* Nadia */}
                 <motion.div
                 variants={fadeIn}
-                className="bg-white rounded-2xl shadow-lg p-6 relative md:col-span-1"
+                className="bg-white rounded-2xl shadow-lg p-6 relative md:col-span-1 flex flex-col justify-between"
                 >
                 <span className="absolute top-2 left-4 text-6xl text-gray-200">“</span>
                 <p className="text-gray-600 relative z-10 mt-6">
@@ -255,7 +255,7 @@ const Landing = () => {
                 {/* Amelia */}
                 <motion.div
                 variants={fadeIn}
-                className="bg-white rounded-2xl shadow-lg p-6 relative md:col-span-1"
+                className="bg-white rounded-2xl shadow-lg p-6 relative md:col-span-1 flex flex-col justify-between"
                 >
                 <span className="absolute top-2 left-4 text-6xl text-gray-200">“</span>
                 <p className="text-gray-600 relative z-10 mt-6 italic">
@@ -326,7 +326,7 @@ const Landing = () => {
                             </div>
                             <h2 className="text-xl font-semibold text-primary">Pendamping AI</h2>
                             <p className="text-gray-500 mt-2">
-                                Jika bingung, AI tutor siap menjawab pertanyaan dan memberi penjelasan singkat.
+                                Jika bingung, AI Assistant siap menjawab pertanyaan dan memberi penjelasan singkat.
                             </p>
                         </div>
 
