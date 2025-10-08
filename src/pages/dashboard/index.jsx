@@ -18,6 +18,7 @@ const Dashboard = () => {
     const [quizzes, setQuizzes] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState("")
+    const urlProduction = import.meta.env.VITE_SHARE_URL_PRODUCTION
 
     useEffect(() => {
         (async(e) => {
@@ -46,6 +47,12 @@ const Dashboard = () => {
             }).then((response) => {
                 setIsLoading(false)
                 setQuizzes(response.data.payload.datas)
+            }).catch((error) => {
+                const errorCode = error.response.status
+
+                if(errorCode === 401){
+                    unAuthUser(navigate)
+                }
             })
         })()
     }, [])
@@ -68,7 +75,7 @@ const Dashboard = () => {
     }
 
     const shareLink = (quizId) => {
-        navigator.clipboard.writeText(`https://ngequiz.netlify.app/play-quiz/${quizId}/question/`);
+        navigator.clipboard.writeText(`${urlProduction}/play-quiz/${quizId}/question/`);
         
         Swal.fire({
         toast: true, // alert pojok

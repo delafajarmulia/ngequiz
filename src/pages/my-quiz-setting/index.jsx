@@ -63,6 +63,10 @@ const MyQuizSetting = () => {
                             text: "Terjadi kesalahan saat menghapus quiz.",
                             icon: "error"
                         })
+
+                        const errorCode = err.response.status
+
+                        if(errorCode === 401) return unAuthUser(navigate)
                     }
                 }
         });

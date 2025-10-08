@@ -122,6 +122,9 @@ const CreateQuestion = () => {
             });
         }).catch((error) => {
             console.log(error)
+            const errorCode = error.response.status
+
+            if(errorCode === 401) return unAuthUser(navigate)
         })
     }
 

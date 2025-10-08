@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/AuthContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
@@ -14,6 +14,9 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(true) // 1. Set isLoading menjadi true saat pertama kali dimuat
     const [showPassword, setShowPassword] = useState(false)
     const [responseError, setResponseError] = useState('')
+
+    const location = useLocation()
+    const errorMessage = location.state?.error
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -116,9 +119,9 @@ const Login = () => {
                         <div className="w-3/4 md:1/2">
                             <h2 className="font-semibold text-2xl">Halo! 👋🏻</h2>
                             <p>Senang bisa ketemu lagi. Yuk, login disini!</p>
-                            {(isError || isResponseError || responseError) && (
+                            {(isError || isResponseError || responseError || errorMessage) && (
                                 <p className="pt-2 text-sm text-red-500">
-                                    {(isError || isResponseError || responseError)?.toString()}
+                                    {(isError || isResponseError || responseError || errorMessage)?.toString()}
                                 </p>
                             )}
 

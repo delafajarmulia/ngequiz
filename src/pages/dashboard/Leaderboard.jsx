@@ -52,6 +52,8 @@ const Leaderboard = () => {
                 if(errorCode == 404){
                     setIsQuizUnavailabled('Belum ada yang buat Quiz nih. Buat dulu yuk!')
                 }
+
+                if(errorCode === 401) return unAuthUser(navigate)
             })
         })()
     }, [])

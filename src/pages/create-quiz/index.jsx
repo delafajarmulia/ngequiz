@@ -56,7 +56,7 @@ const CreateQuiz = () => {
         const newQuiz = {
             title, 
             description,
-            is_once : isOnce === 'true' ? true : false
+            is_once : isOnce === 'false' ? false : true
         }
 
         console.log(newQuiz)
@@ -73,6 +73,11 @@ const CreateQuiz = () => {
             navigate('/create-question/1')
         }).catch((err) => {
             console.log(err)
+            const errorCode = error.response.status
+
+            if(errorCode === 401){
+                unAuthUser(navigate)
+            }
         })
     }
 

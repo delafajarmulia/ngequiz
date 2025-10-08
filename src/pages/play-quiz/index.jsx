@@ -18,7 +18,7 @@ const PlayQuiz = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [selectedAnswer, setSelectedAnswer] = useState(null)
     const [isSubmitting, setIsSubmitting] = useState(false)
-    const resultId = parseInt(localStorage.getItem('result-id'))
+    let resultId = parseInt(localStorage.getItem('result-id'))
     const [showAlert, setShowAlert] = useState(false);
     const [isCorrect, setIsCorrect] = useState(true);
     const [currentScore, setCurrentScore] = useState(0); 
@@ -28,6 +28,35 @@ const PlayQuiz = () => {
     const [pointsPerQuestion, setPointsPerQuestion] = useState(0); 
 
     quizId = parseInt(quizId)
+
+    useEffect(() => {
+        (async(e) => {
+            if(!resultId){
+                await createResult(quizId)
+            }else if(!token){
+                unAuthUser(navigate)
+            }
+        })()
+    }, [])
+
+    const createResult = async(quizId) => {
+        await axios.post(`${url}/result`, {quiz_id: quizId}, {
+            headers: {
+                'Authorization': 'bearer ' + token
+            }
+        }).then((response) => {
+            resultId = response.data.payload.datas.id 
+
+            localStorage.setItem('quiz-playing-id', quizId)
+            localStorage.setItem('result-id', resultId)
+        }).catch((error) => {
+            console.log(error)
+
+            const errorCode = error.response.status
+
+            if(errorCode === 401) return unAuthUser(navigate)
+        })
+    } 
 
     useEffect(() => {
         (async(e) => {
@@ -137,6 +166,9 @@ const PlayQuiz = () => {
         } catch (error) {
             console.error("Error submitting answer:", error);
             setIsSubmitting(false);
+            const errorCode = error.response.status
+
+            if(errorCode === 401) return unAuthUser(navigate)
         }
     };    
 
