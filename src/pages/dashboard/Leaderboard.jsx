@@ -85,6 +85,19 @@ const Leaderboard = () => {
         fetchData()
     }, [optionIndex])
 
+    const getMedalEmoji = (index) => {
+    switch (index) {
+        case 0: 
+            return <span className="text-lg mr-1">🥇</span>;
+        case 1: 
+            return <span className="text-lg mr-1">🥈</span>;
+        case 2: 
+            return <span className="text-lg mr-1">🥉</span>;
+        default:
+            return null;
+    }
+};
+
     return(
         <ContentLayout>
             <Hello name={user.name}/>
@@ -121,20 +134,30 @@ const Leaderboard = () => {
                         userPlays.length < 1 ? 
                             <div className="text-center">Belum ada yang ngerjain nih</div>
                         :
-                            userPlays.map((player, idx) => (
+                           userPlays.map((player, idx) => (
+                            <div
+                                key={idx}
+                                className={`w-full grid grid-cols-6 gap-3 my-2 cursor-pointer text-gray-600 font-semibold`}
+                            >
                                 <div 
-                                    key={idx}
-                                    className="w-full grid grid-cols-6 gap-3 my-2 cursor-pointer text-black font-semibold"
+                                    className={`rounded-lg p-3 text-center border-2 bg-white border-primary flex items-center justify-center`}
                                 >
-                                    <div className="border-2 border-primary rounded-lg p-3 text-center">
-                                        <h1>#{idx + 1}</h1>
-                                    </div>
-                                    <div className="border-2 border-primary col-span-5 rounded-lg p-3 flex justify-between hover:bg-primary hover:text-white hover:border-2">
-                                        <h1>{player.user.name}</h1>
-                                        <h1>{player.score}</h1>
+                                    <h1 className="text-gray-600">#{idx + 1}</h1> 
+                                </div>
+
+                                <div 
+                                    className={`col-span-5 rounded-lg p-3 flex justify-between items-center
+                                                hover:text-white hover:bg-primary border-2 bg-white border-primary`}
+                                >
+                                    <h1 className="text-gray-600">{player.user.name}</h1>
+                                    
+                                    <div className="flex items-center text-gray-600"> 
+                                        {getMedalEmoji(idx)}
+                                        <h1 className="text-gray-600">{player.score}</h1>
                                     </div>
                                 </div>
-                            ))
+                            </div>
+                        ))
                 }
             </div>
         </ContentLayout>
