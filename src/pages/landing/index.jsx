@@ -134,7 +134,7 @@ const Landing = () => {
                 >
                     <div className="flex justify-center">
                         <div className="w-56 h-56 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                            <img src={fitur1} alt="Puzzle Soal" className="w-40 h-auto" />
+                            <img loading='lazy' src={fitur1} alt="Puzzle Soal" className="w-40 h-auto" />
                         </div>
                     </div>
                     <div>
@@ -164,7 +164,7 @@ const Landing = () => {
                     </div>
                     <div className="flex justify-center order-1 md:order-2">
                         <div className="w-56 h-56 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                            <img src={fitur2} alt="Sistem Rating" className="w-40 h-auto" />
+                            <img loading='lazy' src={fitur2} alt="Sistem Rating" className="w-40 h-auto" />
                         </div>
                     </div>
                 </motion.div>
@@ -176,7 +176,7 @@ const Landing = () => {
                 >
                     <div className="flex justify-center">
                         <div className="w-56 h-56 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                            <img src={fitur3} alt="Leaderboard" className="w-40 h-auto" />
+                            <img loading='lazy' src={fitur3} alt="Leaderboard" className="w-40 h-auto" />
                         </div>
                     </div>
                     <div>
@@ -217,7 +217,7 @@ const Landing = () => {
                     ceritanya, dan kadang malah jadi bahan ketawaan bareng.
                 </p>
                 <div className="flex items-center mt-6">
-                    <img
+                    <img loading='lazy'
                     src={testi1}
                     className="w-12 h-12 rounded-full object-cover"
                     alt="Denis"
@@ -240,7 +240,7 @@ const Landing = () => {
                     nggak ngebosenin, malah kayak main bareng!
                 </p>
                 <div className="flex items-center mt-6">
-                    <img
+                    <img loading='lazy'
                     src={testi2}
                     className="w-12 h-12 rounded-full object-cover"
                     alt="Nadia"
@@ -263,7 +263,7 @@ const Landing = () => {
                     simple, enak dilihat, dan nggak bikin bingung!
                 </p>
                 <div className="flex items-center mt-6">
-                    <img
+                    <img loading='lazy'
                     src={testi3}
                     className="w-12 h-12 rounded-full object-cover"
                     alt="Amelia"

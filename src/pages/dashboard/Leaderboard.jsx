@@ -71,8 +71,12 @@ const Leaderboard = () => {
                     setFetchDataIsLoading(false)
                     setUserPlays(response.data.payload.datas)
                 }).catch((error) => {
-                    fetchDataIsLoading(false)
-                    setUserPlays([])
+                    setFetchDataIsLoading(false)
+                    const errorCode = error.response.status
+
+                    if(errorCode === 404){
+                        setUserPlays([])
+                    }
                     console.log(error)
                 })
             }
